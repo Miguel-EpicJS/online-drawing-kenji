@@ -6,6 +6,8 @@ Um aplicativo de desenho online onde você pode compartilhar seu desenho ao vivo
 ## Lembre de instalar o prettier
 
 ## Faça PR sempre que for subir alguma alteração
+
+## Utilize o `git pull --all` e `git rebase` para atualizar a sua branch
 ## Faça Squash and Marge
 
 ## Não faça commits direto na main
