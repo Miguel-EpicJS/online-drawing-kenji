@@ -1,0 +1,31 @@
+{
+  "name": "online-drawing-kenji",
+  "version": "1.0.0",
+  "description": "\"A game like Gartic\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "sudo node ./backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Miguel-EpicJS/online-drawing-kenji.git"
+  },
+  "contributors": [
+    {
+      "name": "Bruno Fernandes",
+      "email": "brunogabriel.ff@gmail.com",
+      "url": "https://github.com/BgFerreira/"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Miguel-EpicJS/online-drawing-kenji/issues"
+  },
+  "homepage": "https://github.com/Miguel-EpicJS/online-drawing-kenji#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "https": "^1.0.0",
+    "path": "^0.12.7"
+  }
+}
