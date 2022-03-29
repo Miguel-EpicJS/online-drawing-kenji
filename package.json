@@ -2,9 +2,11 @@
   "name": "online-drawing-kenji",
   "version": "1.0.0",
   "description": "\"A game like Gartic\"",
-  "main": "index.js",
+  "main": "backend/app.js",
   "scripts": {
-    "test": "sudo node ./backend/server.js"
+    "test": "sudo node ./backend/server.js",
+    "start": "node backend/app.js",
+    "dev": "nodemon backend/app.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +28,11 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "https": "^1.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "crypto": "^1.0.1",
+    "ws": "^8.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

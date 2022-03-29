@@ -8,18 +8,19 @@ const WebSocket = require("ws");
 const wsServer = require("./src");
 
 const app = express();
-const PORT = process.env.PORT;
 
-const server = https.createServer({
+const server = https.createServer(
+  {
     cert: fs.readFileSync(path.join(__dirname, "certs", "mycert.crt")),
-    key: fs.readFileSync(path.join(__dirname, "certs", "selfsigned.key"))
-}, app);
+    key: fs.readFileSync(path.join(__dirname, "certs", "selfsigned.key")),
+  },
+  app
+);
 
 server.on("error", (err) => console.error(err));
 
-const wss = new WebSocket.Server({server, path: "/"});
+const wss = new WebSocket.Server({ server, path: "/" });
 
 wsServer(wss, WebSocket);
 
-module.exports = { server, wss }
-
+module.exports = { server, wss };
