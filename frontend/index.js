@@ -16,7 +16,7 @@ let startY;
 
 /* WS */
 
-ws = new WebSocket("ws://127.0.0.1:8000")
+ws = new WebSocket("wss://127.0.0.1:5050")
 
 ws.onmessage = (ms) => {
 
