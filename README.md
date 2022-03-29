@@ -3,6 +3,12 @@ Um aplicativo de desenho online onde você pode compartilhar seu desenho ao vivo
 
 # Sugestões
 
+## Crie seus certificados.
+        openssl genrsa -out backend/certs/selfkey.key
+
+        openssl req -new -key backend/certs/selfkey.key -out backend/certs/selfcsr.pem
+
+        openssl x509 -req -days 365 -in backend/certs/selfcsr.pem -signkey backend/certs/selfkey.key -out backend/certs/selfcerts.crt
 ## Lembre de instalar o prettier
 
 ## Faça PR sempre que for subir alguma alteração
