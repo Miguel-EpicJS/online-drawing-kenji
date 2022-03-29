@@ -1,5 +1,5 @@
 ### Qual a motivação desse PR?
-Adicionar uma versão base do servidor https e seus certificados de segurança auto-asinados
+(opicional)
 ### Observações / Pontos de atenção
 (opicional)
 
