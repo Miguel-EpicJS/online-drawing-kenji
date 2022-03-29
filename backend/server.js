@@ -4,6 +4,8 @@ const https = require("https");
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
+const WebSocket = require("ws");
+const wsServer = require("./src");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -13,7 +15,11 @@ const server = https.createServer({
     key: fs.readFileSync(path.join(__dirname, "certs", "selfsigned.key"))
 }, app);
 
-// ------------ Apenas para testar --------------
-//app.listen(PORT, () => {
-//    console.log("Https connection is working");
-//});
+server.on("error", (err) => console.error(err));
+
+const wss = new WebSocket.Server({server, path: "/"});
+
+wsServer(wss, WebSocket);
+
+module.exports = { server, wss }
+
