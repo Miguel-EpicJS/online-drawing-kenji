@@ -16,7 +16,7 @@ let startY;
 
 /* WS */
 
-ws = new WebSocket("wss://127.0.0.1:5050")
+ws = new WebSocket("wss://localhost:5050")
 
 ws.onmessage = (ms) => {
 
