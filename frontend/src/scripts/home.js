@@ -32,32 +32,34 @@ const logIn = () => {
       document.getElementById("message").innerHTML = "";
     }, 1500);
   } else {
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", urlRoute);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.send(JSON.stringify({ name: nameInput.value }));
-    xhr.onreadystatechange = () => {
-      if (this.readyState === 4 && this.status === 200) {
+    let wss = new WebSocket(`wss://${urlRoute}`);
+    wss.open();
+    wss.send(JSON.stringify({ "name": nameInput.value }));
+    wss.onmessage((event) => {
+      if (event.data.message === "OK") {
         //Ok: player must be redirected to another page if name is unique in the game room
         document.getElementById("message").innerHTML =
           "Ok: devemos guardar o nome e mandar o jogador para a página da sala/jogo";
         setTimeout(() => {
           document.getElementById("message").innerHTML = "";
-        }, 1500);
-      } else if (this.readyState === 4 && this.status !== 200) {
+        }, 2000);
+      } else if (event.data.message === "Nome repetido") {
+        //repeated name: player must choose another name
         document.getElementById("message").innerHTML =
-          "Não foi possível entrar no jogo (ou o nome já existe na sala)";
+          "O nome já existe na sala. Escolha outro nome";
         setTimeout(() => {
           document.getElementById("message").innerHTML = "";
         }, 2000);
       } else {
+        //other possibility: feedback to player
         document.getElementById("message").innerHTML =
           "Ocorreu um problema na aplicação. Tente novamente mais tarde";
         setTimeout(() => {
           document.getElementById("message").innerHTML = "";
         }, 2000);
       }
-    };
+    });
+    wss.close();
   }
 };
 
