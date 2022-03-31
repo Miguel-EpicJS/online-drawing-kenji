@@ -29,7 +29,7 @@ function chatBroadcast(data, ws, wss, WebSocket) {
             ...data,
             text: data.text,
           },
-          path: "/draw",
+          path: "/chat",
         })
       );
     }

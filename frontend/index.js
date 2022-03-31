@@ -9,7 +9,7 @@ const canvasOffsetX = canvas.offsetLeft;
 const canvasOffsetY = canvas.offsetTop;
 
 canvas.width = window.innerWidth - canvasOffsetX;
-canvas.height = window.innerHeight - canvasOffsetY - 100;
+canvas.height = window.innerHeight - canvasOffsetY;
 
 // User Mock
 const user = "Player 1";
@@ -35,6 +35,10 @@ ws = new WebSocket("wss://localhost:5050");
 ws.onmessage = (ms) => {
   const submitedData = JSON.parse(ms.data);
 
+  if (submitedData.path === "/chat") {
+    return show(submitedData.msg.text);
+  }
+
   if (submitedData.drawing.action === "clear") {
     return context.clearRect(0, 0, canvas.width, canvas.height);
   }
@@ -44,13 +48,11 @@ ws.onmessage = (ms) => {
   context.lineCap = "round";
 
   paint.active = false;
-  show(submitedData.drawing.text);
   context.lineTo(submitedData.drawing.x, submitedData.drawing.y);
   context.stroke();
 };
 
 /* DRAW */
-
 toolbar.addEventListener("click", (e) => {
   if (e.target.id === "clear") {
     console.log("clear");
@@ -163,6 +165,6 @@ sendBtn.onclick = function () {
 
   let user = `${userObj.message}`;
 
-  ws.send(JSON.stringify({ path: "chat", text: user }));
+  ws.send(JSON.stringify({ path: "chat", text: user, action: "chat" }));
   showMessage(messageBox.value);
 };
