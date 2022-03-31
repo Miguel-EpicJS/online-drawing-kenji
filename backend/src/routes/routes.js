@@ -20,4 +20,20 @@ function drawBroadcast(data, ws, wss, WebSocket) {
   });
 }
 
-module.exports = { draw: drawBroadcast }; // path: function
+function chatBroadcast(data, ws, wss, WebSocket) {
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN && client.id !== ws.id) {
+      client.send(
+        JSON.stringify({
+          msg: {
+            ...data,
+            text: data.text,
+          },
+          path: "/draw",
+        })
+      );
+    }
+  });
+}
+
+module.exports = { draw: drawBroadcast, chat: chatBroadcast }; // path: function
