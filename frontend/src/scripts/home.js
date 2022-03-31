@@ -2,18 +2,18 @@ const nameInput = document.getElementById("name");
 const logInButton = document.getElementById("log-in-button");
 
 //route to verify name
-const urlRoute = "";
+let wss = new WebSocket(`wss://127.0.0.1:5050`);
 
 const elementsToSound = [nameInput, logInButton];
 
 for (let i in elementsToSound) {
   elementsToSound[i].addEventListener("mouseenter", () => {
-    const sound = new Audio("../assets/sounds/367376__wjoojoo__blip03.wav");
+    const sound = new Audio("./367376__wjoojoo__blip03.wav");
     sound.play();
   });
 
   elementsToSound[i].addEventListener("mouseleave", () => {
-    const sound = new Audio("../assets/sounds/49070__moca__mocasg-fxs03.mp3");
+    const sound = new Audio("./49070__moca__mocasg-fxs03.mp3");
     sound.play();
   });
 }
@@ -32,8 +32,6 @@ const logIn = () => {
       document.getElementById("message").innerHTML = "";
     }, 1500);
   } else {
-    let wss = new WebSocket(`wss://${urlRoute}`);
-    wss.open();
     wss.send(JSON.stringify({ "name": nameInput.value }));
     wss.onmessage((event) => {
       if (event.data.message === "OK") {
@@ -59,7 +57,6 @@ const logIn = () => {
         }, 2000);
       }
     });
-    wss.close();
   }
 };
 
