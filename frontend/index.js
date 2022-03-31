@@ -32,6 +32,10 @@ ws = new WebSocket("wss://localhost:5050");
 ws.onmessage = (ms) => {
   const submitedData = JSON.parse(ms.data);
 
+  if (submitedData.drawing.action === "clear") {
+    return context.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
   context.strokeStyle = submitedData.drawing.color;
   context.lineWidth = submitedData.drawing.lineWidth;
   context.lineCap = "round";
@@ -46,7 +50,18 @@ ws.onmessage = (ms) => {
 
 toolbar.addEventListener("click", (e) => {
   if (e.target.id === "clear") {
+    console.log("clear");
     context.clearRect(0, 0, canvas.width, canvas.height);
+    ws.send(
+      JSON.stringify({
+        path: "draw",
+        action: "clear",
+        lineWidth: paintStyle.lineWidth,
+        x: 0,
+        y: 0,
+        color: paintStyle.color,
+      })
+    );
   }
 });
 
@@ -77,6 +92,7 @@ const draw = (e) => {
   ws.send(
     JSON.stringify({
       path: "draw",
+      action: "drawing",
       lineWidth: paintStyle.lineWidth,
       x: paint.pos.x,
       y: paint.pos.y,
