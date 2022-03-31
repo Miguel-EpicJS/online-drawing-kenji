@@ -9,7 +9,7 @@ const canvasOffsetX = canvas.offsetLeft;
 const canvasOffsetY = canvas.offsetTop;
 
 canvas.width = window.innerWidth - canvasOffsetX;
-canvas.height = window.innerHeight - canvasOffsetY;
+canvas.height = window.innerHeight - canvasOffsetY- 200;
 
 // User Mock
 const user = "Player 1";
@@ -95,7 +95,7 @@ const draw = (e) => {
     y: paint.pos.y,
   };
   paint.pos.x = e.clientX - canvasOffsetX;
-  paint.pos.y = e.clientY;
+  paint.pos.y = e.clientY ;
 
   ws.send(
     JSON.stringify({
