@@ -1,6 +1,6 @@
 const canvas = document.getElementById("drawing-board");
 const toolbar = document.getElementById("toolbar");
-const ctx = canvas.getContext("2d");
+const context = canvas.getContext("2d");
 const text = document.querySelector(".show-answer");
 const sendBtn = document.querySelector(".answer-button");
 const messageBox = document.querySelector(".answer-input");
@@ -11,81 +11,127 @@ const canvasOffsetY = canvas.offsetTop;
 canvas.width = window.innerWidth - canvasOffsetX;
 canvas.height = window.innerHeight - canvasOffsetY;
 
-let isPainting = false;
-let lineWidth = 5;
-let color = "#000000";
-let startX;
-let startY;
+// User Mock
+const user = "Player 1";
+
+const paintStyle = {
+  lineWidth: 3,
+  color: "#000000",
+};
+
+const paint = {
+  active: false,
+  move: false,
+  pos: {
+    x: 0,
+    y: 0,
+  },
+  before: null,
+};
 
 /* WS */
-
 ws = new WebSocket("wss://localhost:5050");
 
 ws.onmessage = (ms) => {
   const submitedData = JSON.parse(ms.data);
 
-  ctx.strokeStyle = submitedData.drawing.color;
-  ctx.lineWidth = submitedData.drawing.lineWidth;
-  ctx.lineCap = "round";
+  if (submitedData.path === "/chat") {
+    return show(submitedData.msg.text);
+  }
 
-  isPainting = false;
-  show(submitedData.drawing.text);
-  ctx.lineTo(submitedData.drawing.x, submitedData.drawing.y);
-  ctx.stroke();
+  if (submitedData.drawing.action === "clear") {
+    return context.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  context.strokeStyle = submitedData.drawing.color;
+  context.lineWidth = submitedData.drawing.lineWidth;
+  context.lineCap = "round";
+
+  paint.active = false;
+  context.lineTo(submitedData.drawing.x, submitedData.drawing.y);
+  context.stroke();
 };
 
 /* DRAW */
-
 toolbar.addEventListener("click", (e) => {
   if (e.target.id === "clear") {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    console.log("clear");
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    ws.send(
+      JSON.stringify({
+        path: "draw",
+        action: "clear",
+        lineWidth: paintStyle.lineWidth,
+        x: 0,
+        y: 0,
+        color: paintStyle.color,
+        user,
+      })
+    );
   }
 });
 
 toolbar.addEventListener("change", (e) => {
   if (e.target.id === "stroke") {
-    color = e.target.value;
-    ctx.strokeStyle = e.target.value;
+    paintStyle.color = e.target.value;
+    context.strokeStyle = e.target.value;
   }
 
   if (e.target.id === "lineWidth") {
-    lineWidth = e.target.value;
+    paintStyle.lineWidth = e.target.value;
   }
 });
 
 const draw = (e) => {
-  if (!isPainting) {
+  if (!paint.active) {
     return;
   }
+  //Na tela colocar um espaço onde colocarmos isso
+  console.log(`${user} está desenhando`);
+
+  paint.move = true;
+  paint.before = {
+    x: paint.pos.x,
+    y: paint.pos.y,
+  };
+  paint.pos.x = e.clientX - canvasOffsetX;
+  paint.pos.y = e.clientY;
+
   ws.send(
     JSON.stringify({
       path: "draw",
-      lineWidth: lineWidth,
-      x: e.clientX - canvasOffsetX,
-      y: e.clientY,
-      color: color,
+      action: "drawing",
+      lineWidth: paintStyle.lineWidth,
+      x: paint.pos.x,
+      y: paint.pos.y,
+      color: paintStyle.color,
+      user,
     })
   );
 
-  ctx.lineWidth = lineWidth;
-  ctx.lineCap = "round";
+  context.lineWidth = paintStyle.lineWidth;
+  context.lineCap = "round";
 
-  ctx.lineTo(e.clientX - canvasOffsetX, e.clientY);
-  ctx.stroke();
+  // context.moveTo(paint.before.x, paint.before.y);
+  context.lineTo(paint.pos.x, paint.pos.y);
+  context.stroke();
   console.log("mousemove");
 };
 
 canvas.addEventListener("mousedown", (e) => {
-  isPainting = true;
-  startX = e.clientX;
-  startY = e.clientY;
+  paint.active = true;
+  paint.before = {
+    x: e.clientX,
+    y: e.clientY,
+  };
+
   console.log("mousedown");
 });
 
 canvas.addEventListener("mouseup", (e) => {
-  isPainting = false;
-  ctx.stroke();
-  ctx.beginPath();
+  paint.active = false;
+  context.stroke();
+  context.beginPath();
   console.log("mouseup");
 });
 
@@ -119,6 +165,6 @@ sendBtn.onclick = function () {
 
   let user = `${userObj.message}`;
 
-  ws.send(JSON.stringify({ path: "draw", text: user }));
+  ws.send(JSON.stringify({ path: "chat", text: user, action: "chat" }));
   showMessage(messageBox.value);
 };
