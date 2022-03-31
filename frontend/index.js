@@ -11,6 +11,9 @@ const canvasOffsetY = canvas.offsetTop;
 canvas.width = window.innerWidth - canvasOffsetX;
 canvas.height = window.innerHeight - canvasOffsetY - 60;
 
+// User Mock
+const user =  "Player 1"
+
 const paintStyle = {
   lineWidth: 3,
   color: "#000000",
@@ -60,6 +63,7 @@ toolbar.addEventListener("click", (e) => {
         x: 0,
         y: 0,
         color: paintStyle.color,
+        user
       })
     );
   }
@@ -80,7 +84,9 @@ const draw = (e) => {
   if (!paint.active) {
     return;
   }
-
+  //Na tela colocar um espaço onde colocarmos isso
+  console.log(`${user} está desenhando`);
+  
   paint.move = true;
   paint.before = {
     x: paint.pos.x,
@@ -97,6 +103,7 @@ const draw = (e) => {
       x: paint.pos.x,
       y: paint.pos.y,
       color: paintStyle.color,
+      user
     })
   );
 
