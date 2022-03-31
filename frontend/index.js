@@ -9,10 +9,10 @@ const canvasOffsetX = canvas.offsetLeft;
 const canvasOffsetY = canvas.offsetTop;
 
 canvas.width = window.innerWidth - canvasOffsetX;
-canvas.height = window.innerHeight - canvasOffsetY - 60;
+canvas.height = window.innerHeight - canvasOffsetY - 100;
 
 // User Mock
-const user =  "Player 1"
+const user = "Player 1";
 
 const paintStyle = {
   lineWidth: 3,
@@ -63,7 +63,7 @@ toolbar.addEventListener("click", (e) => {
         x: 0,
         y: 0,
         color: paintStyle.color,
-        user
+        user,
       })
     );
   }
@@ -86,14 +86,14 @@ const draw = (e) => {
   }
   //Na tela colocar um espaço onde colocarmos isso
   console.log(`${user} está desenhando`);
-  
+
   paint.move = true;
   paint.before = {
     x: paint.pos.x,
     y: paint.pos.y,
   };
   paint.pos.x = e.clientX - canvasOffsetX;
-  paint.pos.y = e.clientY - canvasOffsetY;
+  paint.pos.y = e.clientY;
 
   ws.send(
     JSON.stringify({
@@ -103,7 +103,7 @@ const draw = (e) => {
       x: paint.pos.x,
       y: paint.pos.y,
       color: paintStyle.color,
-      user
+      user,
     })
   );
 
@@ -163,6 +163,6 @@ sendBtn.onclick = function () {
 
   let user = `${userObj.message}`;
 
-  ws.send(JSON.stringify({ path: "draw", text: user }));
+  ws.send(JSON.stringify({ path: "chat", text: user }));
   showMessage(messageBox.value);
 };
