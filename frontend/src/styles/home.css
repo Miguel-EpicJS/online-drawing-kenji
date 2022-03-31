@@ -21,20 +21,27 @@ input:hover {
     font-family: 'Press Start 2P', cursive;
 }
 #log-in-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background-color: #212339;
     width: 537px;
     height: 353px;
     margin: auto;
     border-radius: 10px;
     margin-top: 8%;
-    padding-top: 32px;
+    padding: 65px 20px;
 }
 #log-in-box h1 {
    color: #fff;
    font-size: 40px;
 }
 #log-in-box form {
-    margin-top: 64px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 #name {
     background-color: #404156;
@@ -45,15 +52,35 @@ input:hover {
     color: #fff;
 }
 #log-in-button {
-    margin-top: 64px;
+    margin-top: 40px;
     background-color: #F4F2F5;
     border-radius: 50px;
     width: 250px;
     height: 60px;
+    font-family: 'Press Start 2P';
+    font-style: normal;
+    font-weight: 400;
     font-size: 20px;
+    line-height: 20px;
+    color: #212339;
 }
 #message {
     color: #f00;
     font-size: 20px;
     margin-top: 2%;
+}
+#nickname {
+    width: 428px;
+    height: 50px;
+    background: #404156;
+    border-radius: 10px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    color: #BABABA;
+    outline: none;
+    padding-left: 20px;
+    text-align: center;
 }
