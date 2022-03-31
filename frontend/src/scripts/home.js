@@ -62,8 +62,9 @@ const logIn = () => {
 
 logInButton.addEventListener("click", logIn);
 
-document.addEventListener("keydonw", (e) => {
-  if (e.which === 13) {
+document.addEventListener("keydown", (e) => {
+  console.log(e.key);
+  if (e.key === "Enter") {
     logIn();
   };
 });
