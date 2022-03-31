@@ -61,3 +61,9 @@ const logIn = () => {
 };
 
 logInButton.addEventListener("click", logIn);
+
+document.addEventListener("keydonw", (e) => {
+  if (e.which === 13) {
+    logIn();
+  };
+});
