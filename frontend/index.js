@@ -1,3 +1,6 @@
+/* require('normalize.css/normalize.css');
+ *//* import css from "./style.css" */
+
 const canvas = document.getElementById("drawing-board");
 const toolbar = document.getElementById("toolbar");
 const context = canvas.getContext("2d");

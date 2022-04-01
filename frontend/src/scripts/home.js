@@ -1,3 +1,7 @@
+/* require('normalize.css/normalize.css');
+ */
+/* import css from "../styles/home.css"
+ */
 const nameInput = document.getElementById("name");
 const logInButton = document.getElementById("log-in-button");
 
