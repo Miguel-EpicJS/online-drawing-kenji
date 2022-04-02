@@ -19,7 +19,7 @@ module.exports = {
     // how to write the compiled files to disk
     // https://webpack.js.org/concepts/output/
     output: {
-        filename: "[name].[hash:20].js",
+        filename: "[name].js",
         path: buildPath
     },
 
@@ -51,7 +51,7 @@ module.exports = {
             filename: "home.html"
         }),
         new MiniCssExtractPlugin({
-            filename: "[name].[contenthash].css",
+            filename: "[name].css",
             chunkFilename: "[id].[contenthash].css"
         })
     ],
