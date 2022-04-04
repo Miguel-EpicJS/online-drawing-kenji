@@ -1,5 +1,8 @@
 import "../styles/home.css";
 
+import "../assets/sounds/367376__wjoojoo__blip03.wav";
+import "../assets/sounds/49070__moca__mocasg-fxs03.mp3";
+
 const nameInput = document.getElementById("name");
 const logInButton = document.getElementById("log-in-button");
 
