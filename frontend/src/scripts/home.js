@@ -18,43 +18,30 @@ for (let i in elementsToSound) {
   });
 }
 
+const setMessage = (text) => {
+  document.getElementById("message").innerHTML = text;
+  setTimeout(() => {
+    document.getElementById("message").innerHTML = "";
+  }, 1500);
+};
+
 const logIn = () => {
   if (/\s/g.test(nameInput.value)) {
-    document.getElementById("message").innerHTML =
-      "O nome não pode conter espaços em branco";
-    setTimeout(() => {
-      document.getElementById("message").innerHTML = "";
-    }, 1500);
+    setMessage("O nome não pode conter espaços em branco");
   } else if (nameInput.value.length <= 0) {
-    document.getElementById("message").innerHTML =
-      "O nome deve conter pelo menos um caractere";
-    setTimeout(() => {
-      document.getElementById("message").innerHTML = "";
-    }, 1500);
+    setMessage("O nome deve conter pelo menos um caractere");
   } else {
     wss.send(JSON.stringify({ "name": nameInput.value }));
     wss.onmessage((event) => {
       if (event.data.message === "OK") {
         //Ok: player must be redirected to another page if name is unique in the game room
-        document.getElementById("message").innerHTML =
-          "Ok: devemos guardar o nome e mandar o jogador para a página da sala/jogo";
-        setTimeout(() => {
-          document.getElementById("message").innerHTML = "";
-        }, 2000);
+        setMessage("Ok: devemos guardar o nome e mandar o jogador para a página da sala/jogo");
       } else if (event.data.message === "Nome repetido") {
         //repeated name: player must choose another name
-        document.getElementById("message").innerHTML =
-          "O nome já existe na sala. Escolha outro nome";
-        setTimeout(() => {
-          document.getElementById("message").innerHTML = "";
-        }, 2000);
+        setMessage("O nome já existe na sala. Escolha outro nome");
       } else {
         //other possibility: feedback to player
-        document.getElementById("message").innerHTML =
-          "Ocorreu um problema na aplicação. Tente novamente mais tarde";
-        setTimeout(() => {
-          document.getElementById("message").innerHTML = "";
-        }, 2000);
+        setMessage("Ocorreu um problema na aplicação. Tente novamente mais tarde");
       }
     });
   }
