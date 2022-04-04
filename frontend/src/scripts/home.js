@@ -1,3 +1,5 @@
+import "../styles/home.css";
+
 const nameInput = document.getElementById("name");
 const logInButton = document.getElementById("log-in-button");
 

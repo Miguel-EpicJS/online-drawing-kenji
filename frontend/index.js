@@ -1,3 +1,5 @@
+import "./style.css";
+
 const canvas = document.getElementById("drawing-board");
 const toolbar = document.getElementById("toolbar");
 const context = canvas.getContext("2d");
@@ -30,7 +32,7 @@ const paint = {
 };
 
 /* WS */
-ws = new WebSocket("wss://localhost:5050");
+const ws = new WebSocket("wss://localhost:5050");
 
 ws.onmessage = (ms) => {
   const submitedData = JSON.parse(ms.data);
