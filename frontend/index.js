@@ -11,7 +11,7 @@ const canvasOffsetX = canvas.offsetLeft;
 const canvasOffsetY = canvas.offsetTop;
 
 canvas.width = window.innerWidth - canvasOffsetX;
-canvas.height = window.innerHeight - canvasOffsetY- 200;
+canvas.height = window.innerHeight - canvasOffsetY;
 
 // User Mock
 const user = "Player 1";
