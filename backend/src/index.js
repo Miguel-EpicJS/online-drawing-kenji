@@ -8,6 +8,10 @@ const crypto = require("crypto");
 const wsServer = (wss, WebSocket) => {
   wss.on("connection", (ws) => {
     ws.id = crypto.randomBytes(20).toString("hex");
+    ws.channels = []
+    ws.username = null
+
+    console.log(ws);
 
     ws.on("message", (data) => {
       let receivedData;
