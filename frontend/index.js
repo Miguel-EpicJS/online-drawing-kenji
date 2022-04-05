@@ -170,3 +170,14 @@ sendBtn.onclick = function () {
   ws.send(JSON.stringify({ path: "chat", text: user, action: "chat" }));
   showMessage(messageBox.value);
 };
+
+
+/* LEAVE */
+
+const leaveBtn = document.getElementById("leave");
+
+leaveBtn.onclick = () => {
+
+    window.location.href = "home.html";
+
+};

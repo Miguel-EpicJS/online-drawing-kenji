@@ -42,11 +42,11 @@ const logIn = () => {
 
             const data = JSON.parse( event.data );
 
-            if (data.ok === true) {
+            if (data.ok) {
                 //Ok: player must be redirected to another page if name is unique in the game room
                 localStorage.setItem("username", nameInput.value);
                 window.location.href = "index.html";
-            } else if (data.ok === false) {
+            } else if (!data.ok) {
                 //repeated name: player must choose another name
                 console.log(data.msg.text);
             } else {
@@ -59,8 +59,8 @@ const logIn = () => {
 
 logInButton.addEventListener("click", logIn);
 
-document.addEventListener("keydonw", (e) => {
-    if (e.which === 13) {
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
         logIn();
     };
 });
