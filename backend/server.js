@@ -8,22 +8,21 @@ const WebSocket = require("ws");
 const wsServer = require("./src");
 
 const app = express();
-app.use(express.static('frontend'));
+app.use(express.static("dist"));
 
-app.get('/', (req, res, next) => {
+app.get("/", (req, res, next) => {
+  const options = {
+    root: path.join(__dirname + ".." + "dist"),
+  };
 
-    const options = {
-        root: path.join(__dirname + '/frontend/')
-    };
-
-    res.sendFile('index.html', options, (err) => {
-        if (err) {
-            next(err);
-        } else {
-            console.log('Sent:', fileName);
-            next();
-        }
-    });
+  res.sendFile("index.html", options, (err) => {
+    if (err) {
+      next(err);
+    } else {
+      console.log("Sent:", fileName);
+      next();
+    }
+  });
 });
 
 const server = https.createServer(

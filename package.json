@@ -6,7 +6,8 @@
   "scripts": {
     "test": "sudo node ./backend/server.js",
     "start": "node backend/app.js",
-    "build": "webpack"
+    "build": "webpack",
+    "dev": "nodemon backend/app.js"
   },
   "repository": {
     "type": "git",
