@@ -39,7 +39,6 @@ function chatBroadcast(data, ws, wss, WebSocket) {
 }
 
 function userLogin(data, ws, wss, WebSocket) {
-
     // login validations
 
     ws.send(JSON.stringify({

@@ -3,7 +3,7 @@ import { Paint } from "./src/scripts/paint";
 import { CanvasControl } from "./src/scripts/canvas";
 import { wss as ws } from "./src/scripts/home";
 //--------------------------------------------------
-//  criar arquivo config para guardar as variaveis
+//  criar arquivo config para guardar as variaveis  
 //--------------------------------------------------
 
 class WS {
@@ -32,6 +32,7 @@ class WS {
   }
 
   getMessage() {}
+  
 }
 
 const canvas = document.getElementById("drawing-board");
