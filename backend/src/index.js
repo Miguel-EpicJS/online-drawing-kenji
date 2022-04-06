@@ -3,20 +3,13 @@ const routes = require("./routes/routes");
 
 const paths = Object.keys(routes);
 
-const crypto = require("crypto");
-
 const wsServer = (wss, WebSocket) => {
   wss.on("connection", (ws) => {
-    ws.id = crypto.randomBytes(20).toString("hex");
-
     ws.on("message", (data) => {
       let receivedData;
-      
+
       try {
-        receivedData = JSON.parse(data.toString());
-        console.log("--------------------- path ----------------");
-        console.log(receivedData.path);
-        console.log(receivedData);
+        receivedData = JSON.parse(data);
       } catch (error) {
         ws.send({ message: "Please submit a json" });
         return 0;
