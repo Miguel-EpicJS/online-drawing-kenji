@@ -8,6 +8,8 @@ const logInButton = document.getElementById("log-in-button");
 //route to verify name
 const wss = new WebSocket(`wss://localhost:5050`);
 
+const elementsToSound = [nameInput, logInButton];
+
 const renderedLogin = () => {
   document.getElementById("log-in-box").style.display = "none";
   document.getElementById("principal-container").style.display = "flex";
