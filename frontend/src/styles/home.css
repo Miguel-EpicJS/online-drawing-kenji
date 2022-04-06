@@ -39,7 +39,7 @@ input:hover {
    color: #fff;
    font-size: 40px;
 }
-#log-in-box form {
+#log-in-box div {
     margin-top: 50px;
     display: flex;
     flex-direction: column;

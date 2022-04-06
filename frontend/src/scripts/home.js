@@ -1,5 +1,4 @@
 import "../styles/home.css";
-
 import "../assets/sounds/367376__wjoojoo__blip03.wav";
 import "../assets/sounds/49070__moca__mocasg-fxs03.mp3";
 
@@ -7,7 +6,7 @@ const nameInput = document.getElementById("name");
 const logInButton = document.getElementById("log-in-button");
 
 //route to verify name
-let wss = new WebSocket(`wss://127.0.0.1:5050`);
+const wss = new WebSocket(`wss://localhost:5050`);
 
 const elementsToSound = [nameInput, logInButton];
 
@@ -30,23 +29,33 @@ const setMessage = (text) => {
   }, 1500);
 };
 
+const renderedLogin = () => {
+  document.getElementById("log-in-box").style.display = "none";
+  document.getElementById("principal-container").style.display = "flex";
+};
+
 const logIn = () => {
   if (/\s/g.test(nameInput.value)) {
     setMessage("O nome não pode conter espaços em branco");
   } else if (nameInput.value.length <= 0) {
     setMessage("O nome deve conter pelo menos um caractere");
   } else {
-    wss.send(JSON.stringify({ "name": nameInput.value }));
+    wss.send(JSON.stringify({ name: nameInput.value }));
     wss.onmessage((event) => {
       if (event.data.message === "OK") {
         //Ok: player must be redirected to another page if name is unique in the game room
-        setMessage("Ok: devemos guardar o nome e mandar o jogador para a página da sala/jogo");
+        console.log(
+          "Ok: devemos guardar o nome e mandar o jogador para a página da sala/jogo"
+        );
+        renderedLogin();
       } else if (event.data.message === "Nome repetido") {
         //repeated name: player must choose another name
-        setMessage("O nome já existe na sala. Escolha outro nome");
+        console.log("O nome já existe na sala. Escolha outro nome");
       } else {
         //other possibility: feedback to player
-        setMessage("Ocorreu um problema na aplicação. Tente novamente mais tarde");
+        console.log(
+          "Ocorreu um problema na aplicação. Tente novamente mais tarde"
+        );
       }
     });
   }
@@ -55,7 +64,16 @@ const logIn = () => {
 logInButton.addEventListener("click", logIn);
 
 document.addEventListener("keydonw", (e) => {
-  if (e.which === 13) {
+  if (e.key === "Enter") {
     logIn();
-  };
+  }
 });
+
+const errosType = {
+  white_space: "O nome não pode conter espaços em branco",
+  little: "O nome deve conter pelo menos um caractere",
+  OK: "Ok: devemos guardar o nome e mandar o jogador para a página da sala/jogo",
+  "Nome repetido": "O nome já existe na sala. Escolha outro nome",
+};
+
+export { wss };

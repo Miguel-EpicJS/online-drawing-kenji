@@ -1,4 +1,38 @@
 import "./style.css";
+import { Paint } from "./src/scripts/paint";
+import { CanvasControl } from "./src/scripts/canvas";
+import { wss as ws } from "./src/scripts/home";
+//--------------------------------------------------
+//  criar arquivo config para guardar as variaveis
+//--------------------------------------------------
+
+class WS {
+  constructor() {
+    this.ws = new WebSocket("wss://localhost:5050");
+    this.username = "";
+    this.channel = "";
+    this.idUser = "";
+    this.messages = [];
+  }
+
+  setUsername(_username) {
+    this.username = _username;
+  }
+
+  setChannel(_channel) {
+    this.channel = _channel;
+  }
+
+  setUserId(_id) {
+    this.idUser = _id;
+  }
+
+  sendMessage(_message) {
+
+  }
+
+  getMessage() {}
+}
 
 const canvas = document.getElementById("drawing-board");
 const toolbar = document.getElementById("toolbar");
@@ -7,32 +41,14 @@ const text = document.querySelector(".show-answer");
 const sendBtn = document.querySelector(".answer-button");
 const messageBox = document.querySelector(".answer-input");
 
-const canvasOffsetX = canvas.offsetLeft;
-const canvasOffsetY = canvas.offsetTop;
-
-canvas.width = window.innerWidth - canvasOffsetX;
-canvas.height = window.innerHeight - canvasOffsetY;
-
 // User Mock
 const user = "Player 1";
 
-const paintStyle = {
-  lineWidth: 3,
-  color: "#000000",
-};
-
-const paint = {
-  active: false,
-  move: false,
-  pos: {
-    x: 0,
-    y: 0,
-  },
-  before: null,
-};
+const paint = new Paint();
+const board = new CanvasControl(canvas);
 
 /* WS */
-const ws = new WebSocket("wss://localhost:5050");
+// const ws = new WebSocket("wss://localhost:5050");
 
 ws.onmessage = (ms) => {
   const submitedData = JSON.parse(ms.data);
@@ -42,31 +58,31 @@ ws.onmessage = (ms) => {
   }
 
   if (submitedData.drawing.action === "clear") {
-    return context.clearRect(0, 0, canvas.width, canvas.height);
+    return board.clearContext();
   }
 
-  context.strokeStyle = submitedData.drawing.color;
-  context.lineWidth = submitedData.drawing.lineWidth;
-  context.lineCap = "round";
+  board.strokeStyle(submitedData.drawing.color);
+  board.setLineWidth(submitedData.drawing.lineWidth);
+  board.setLineCap("round");
 
-  paint.active = false;
-  context.lineTo(submitedData.drawing.x, submitedData.drawing.y);
-  context.stroke();
+  paint.activeCursor();
+  board.setLineTO(submitedData.drawing.x, submitedData.drawing.y);
 };
 
 /* DRAW */
 toolbar.addEventListener("click", (e) => {
   if (e.target.id === "clear") {
     console.log("clear");
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    board.clearContext();
+
     ws.send(
       JSON.stringify({
         path: "draw",
         action: "clear",
-        lineWidth: paintStyle.lineWidth,
+        lineWidth: paint.getLineWidth(),
         x: 0,
         y: 0,
-        color: paintStyle.color,
+        color: paint.getColor(),
         user,
       })
     );
@@ -75,66 +91,53 @@ toolbar.addEventListener("click", (e) => {
 
 toolbar.addEventListener("change", (e) => {
   if (e.target.id === "stroke") {
-    paintStyle.color = e.target.value;
-    context.strokeStyle = e.target.value;
+    paint.setColor(e.target.value);
+    board.setStrokeStyle(target.value);
   }
 
   if (e.target.id === "lineWidth") {
-    paintStyle.lineWidth = e.target.value;
+    paint.setWidth(e.target.value);
   }
 });
 
 const draw = (e) => {
-  if (!paint.active) {
+  if (!paint.getState()) {
     return;
   }
-  //Na tela colocar um espaço onde colocarmos isso
+
   console.log(`${user} está desenhando`);
 
-  paint.move = true;
-  paint.before = {
-    x: paint.pos.x,
-    y: paint.pos.y,
-  };
-  paint.pos.x = e.clientX - canvasOffsetX;
-  paint.pos.y = e.clientY ;
+  paint.setBeforeCursor();
+  paint.setMoveCursor(e.clientX - board.getCanvasOffsetX(), e.clientY);
 
   ws.send(
     JSON.stringify({
       path: "draw",
       action: "drawing",
-      lineWidth: paintStyle.lineWidth,
-      x: paint.pos.x,
-      y: paint.pos.y,
-      color: paintStyle.color,
+      lineWidth: paint.getLineWidth(),
+      x: paint.getPos().x,
+      y: paint.getPos().y,
+      color: paint.getColor(),
       user,
     })
   );
 
-  context.lineWidth = paintStyle.lineWidth;
-  context.lineCap = "round";
+  board.setLineWidth(paint.lineWidth);
+  board.setLineCap("round");
 
-  // context.moveTo(paint.before.x, paint.before.y);
   context.lineTo(paint.pos.x, paint.pos.y);
   context.stroke();
-  console.log("mousemove");
 };
 
 canvas.addEventListener("mousedown", (e) => {
-  paint.active = true;
-  paint.before = {
-    x: e.clientX,
-    y: e.clientY,
-  };
-
-  console.log("mousedown");
+  paint.activeCursor();
+  paint.setBeforeCursor();
 });
 
 canvas.addEventListener("mouseup", (e) => {
-  paint.active = false;
+  paint.disabledCursor();
   context.stroke();
   context.beginPath();
-  console.log("mouseup");
 });
 
 canvas.addEventListener("mousemove", draw);
@@ -143,21 +146,17 @@ function showMessage(message) {
   text.innerHTML += `<p id="my">Eu: ${message}<p/>`;
   text.scrollTop = text.scrollHeight;
   messageBox.value = "";
-
-  console.log(message);
 }
 
 function show(message) {
   text.innerHTML += `<p id="you">Jogador: ${message}<p/>`;
   text.scrollTop = text.scrollHeight;
   messageBox.value = "";
-
-  console.log(message);
 }
 
 sendBtn.onclick = function () {
   if (!ws) {
-    showMessage("No websocket connection :(");
+    showMessage("No websocket connection :("); // tentar conectar novamente.
     return;
   }
   let userObj = {
