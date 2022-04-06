@@ -5,6 +5,7 @@ import mocaMp3 from "../assets/sounds/49070__moca__mocasg-fxs03.mp3";
 
 const nameInput = document.getElementById("nickname");
 const logInButton = document.getElementById("log-in-button");
+const inputMsg = document.getElementById("message");
 //route to verify name
 const wss = new WebSocket(`wss://localhost:5050`);
 
@@ -17,35 +18,46 @@ const renderedLogin = () => {
 try {
   const elementsToSound = [nameInput, logInButton];
 
-  for (let i in elementsToSound) {
-    elementsToSound[i].addEventListener("mouseenter", () => {
-      const sound = new Audio(blipWav);
-      sound.play();
-    });
+  // for (let i in elementsToSound) {
+  //   elementsToSound[i].addEventListener("mouseenter", () => {
+  //     const sound = new Audio(blipWav);
+  //     sound.play();
+  //   });
 
-    elementsToSound[i].addEventListener("mouseleave", () => {
-      const sound = new Audio(mocaMp3);
-      sound.play();
-    });
-  }
-  /* 
-    const setMessage = (text) => {
-        document.getElementById("message").innerHTML = text;
-        setTimeout(() => {
-            document.getElementById("message").innerHTML = "";
-        }, 1500);
-        console.log(text);
-    }; */
-
+  //   elementsToSound[i].addEventListener("mouseleave", () => {
+  //     const sound = new Audio(mocaMp3);
+  //     sound.play();
+  //   });
+  // }
+   
+  
   const logIn = () => {
+
+    function setMessage (text) {
+        inputMsg.innerHTML = text;
+        setTimeout(() => {
+            inputMsg.innerHTML = "";
+        }, 2000);
+        console.log(text);
+    };
     if (/\s/g.test(nameInput.value)) {
       setMessage("O nome não pode conter espaços em branco");
     } else if (nameInput.value.length <= 0) {
-      setMessage("O nome deve conter pelo menos um caractere");
+      setMessage("Insira seu nome de usuário");
     } else {
-      wss.send(JSON.stringify({ name: nameInput.value, path: "login" }));
+      wss.send(JSON.stringify({ name: nameInput.value, path: "login", channel: "general" }));
       wss.onmessage = (event) => {
         const data = JSON.parse(event.data);
+        // const chatlist = JSON.parse(data.chatList);
+        console.log(data);
+        
+        console.log(data.chatList);
+        
+        if (data.chatList.includes(nameInput.value)) {
+          data.ok = false;
+          setMessage("O nome de usuário já existe, insira outro.");
+        } 
+        
 
         if (data.ok) {
           //Ok: player must be redirected to another page if name is unique in the game room

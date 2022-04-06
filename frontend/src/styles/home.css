@@ -1,13 +1,9 @@
-html {
-    background: url("../assets/images/background.png");
-    background-repeat: no-repeat;
-    background-size: cover;
+body {  
     font-family: 'Press Start 2P', cursive;
     background-color: #0E0F2A;
 }
-body {
-     margin: 0;
-}
+
+
 input:hover {
     cursor: pointer;
     scale: 1.05;
@@ -54,7 +50,7 @@ input:hover {
     color: #fff;
 }
 #log-in-button {
-    margin-top: 40px;
+    margin-top: 30px;
     background-color: #F4F2F5;
     border-radius: 50px;
     width: 250px;
@@ -68,8 +64,7 @@ input:hover {
 }
 #message {
     color: #f00;
-    font-size: 20px;
-    margin-top: 2%;
+    font-size: 15px;
 }
 #nickname {
     width: 428px;
