@@ -44,12 +44,6 @@ module.exports = {
             chunks: ["bundle"],
             filename: "index.html"
         }),
-        new HtmlWebpackPlugin({
-            template: "./frontend/home.html",
-            inject: "body",
-            chunks: ["bundle"],
-            filename: "home.html"
-        }),
         new MiniCssExtractPlugin({
             filename: "[name].css",
             chunkFilename: "[id].[contenthash].css"
