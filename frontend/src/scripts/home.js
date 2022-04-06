@@ -1,61 +1,72 @@
 import "../styles/home.css";
 
-import "../assets/sounds/367376__wjoojoo__blip03.wav";
-import "../assets/sounds/49070__moca__mocasg-fxs03.mp3";
+import blipWav from "../assets/sounds/367376__wjoojoo__blip03.wav";
+import mocaMp3 from "../assets/sounds/49070__moca__mocasg-fxs03.mp3";
 
-const nameInput = document.getElementById("name");
-const logInButton = document.getElementById("log-in-button");
+try {
 
-//route to verify name
-let wss = new WebSocket(`wss://127.0.0.1:5050`);
+    const nameInput = document.getElementById("nickname");
+    const logInButton = document.getElementById("log-in-button");
 
-const elementsToSound = [nameInput, logInButton];
+    //route to verify name
+    let wss = new WebSocket(`wss://127.0.0.1:5050`);
 
-for (let i in elementsToSound) {
-  elementsToSound[i].addEventListener("mouseenter", () => {
-    const sound = new Audio("./367376__wjoojoo__blip03.wav");
-    sound.play();
-  });
+    const elementsToSound = [nameInput, logInButton];
 
-  elementsToSound[i].addEventListener("mouseleave", () => {
-    const sound = new Audio("./49070__moca__mocasg-fxs03.mp3");
-    sound.play();
-  });
-}
+    for (let i in elementsToSound) {
+        elementsToSound[i].addEventListener("mouseenter", () => {
+            const sound = new Audio(blipWav);
+            sound.play();
+        });
 
-const setMessage = (text) => {
-  document.getElementById("message").innerHTML = text;
-  setTimeout(() => {
-    document.getElementById("message").innerHTML = "";
-  }, 1500);
-};
+        elementsToSound[i].addEventListener("mouseleave", () => {
+            const sound = new Audio(mocaMp3);
+            sound.play();
+        });
+    }
+    /* 
+    const setMessage = (text) => {
+        document.getElementById("message").innerHTML = text;
+        setTimeout(() => {
+            document.getElementById("message").innerHTML = "";
+        }, 1500);
+        console.log(text);
+    }; */
 
-const logIn = () => {
-  if (/\s/g.test(nameInput.value)) {
-    setMessage("O nome não pode conter espaços em branco");
-  } else if (nameInput.value.length <= 0) {
-    setMessage("O nome deve conter pelo menos um caractere");
-  } else {
-    wss.send(JSON.stringify({ "name": nameInput.value }));
-    wss.onmessage((event) => {
-      if (event.data.message === "OK") {
-        //Ok: player must be redirected to another page if name is unique in the game room
-        setMessage("Ok: devemos guardar o nome e mandar o jogador para a página da sala/jogo");
-      } else if (event.data.message === "Nome repetido") {
-        //repeated name: player must choose another name
-        setMessage("O nome já existe na sala. Escolha outro nome");
-      } else {
-        //other possibility: feedback to player
-        setMessage("Ocorreu um problema na aplicação. Tente novamente mais tarde");
-      }
+    const logIn = () => {
+        if (/\s/g.test(nameInput.value)) {
+            setMessage("O nome não pode conter espaços em branco");
+        } else if (nameInput.value.length <= 0) {
+            setMessage("O nome deve conter pelo menos um caractere");
+        } else {
+            wss.send(JSON.stringify({ name: nameInput.value, path: "login" }));
+            wss.onmessage = (event) => {
+
+                const data = JSON.parse(event.data);
+
+                if (data.ok) {
+                    //Ok: player must be redirected to another page if name is unique in the game room
+                    localStorage.setItem("username", nameInput.value);
+                    window.location.href = "index.html";
+                } else if (!data.ok) {
+                    //repeated name: player must choose another name
+                    console.log(data.msg.text);
+                } else {
+                    //other possibility: feedback to player
+                    console.log("Ocorreu um problema na aplicação. Tente novamente mais tarde");
+                }
+            };
+        }
+    };
+
+    logInButton.addEventListener("click", logIn);
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            logIn();
+        };
     });
-  }
-};
 
-logInButton.addEventListener("click", logIn);
-
-document.addEventListener("keydonw", (e) => {
-  if (e.which === 13) {
-    logIn();
-  };
-});
+} catch (error) {
+    console.log(error)
+}

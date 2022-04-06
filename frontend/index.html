@@ -17,36 +17,38 @@
   </head>
   <body>
     <main class="principal-container">
-      <section class="first-container">
-        <div class="players">Jogadores:</div>
-        <button class="button-out">Sair</button>
-      </section>
-      <section class="second-container">
-        <div class="container">
-          <div id="toolbar">
-            <input id="stroke" name="stroke" type="color" />
-            <input id="lineWidth" name="lineWidth" type="number" value="5" />
-            <button id="clear">Clear</button>
-          </div>
-          <div class="drawing-board">
-            <canvas id="drawing-board"></canvas>
-          </div>
-        </div>
-        <div class="answer-container">
-          <div class="show-answer">
-            <span>Respostas</span>
-            <p>aaaaaa</p>
-          </div>
-          <div class="send-answer">
-            <input
-              type="text"
-              placeholder="Digite sua resposta:"
-              class="answer-input"
-            />
-            <button class="answer-button">Enviar</button>
-          </div>
-        </div>
-      </section>
+        <section class="first-container">
+            <div class="players">
+                Jogadores:
+            </div>
+            <button class="button-out" id="leave">
+                Sair
+            </button>
+        </section>
+        <section class="second-container">
+            <div class="container">
+                <div id="toolbar">
+                    <input id="stroke" name='stroke' type="color">
+                    <input id="lineWidth" name='lineWidth' type="number" value="5">
+                    <button id="clear">Clear</button>
+                </div>
+                <div class="drawing-board">
+                    <canvas id="drawing-board"></canvas>
+                </div>
+            </div>
+            <div class="answer-container">
+                <div class="show-answer">
+                    <span>Respostas</span>
+                    <p>aaaaaa</p>
+                </div>
+                <div class="send-answer">
+                    <input type="text" placeholder="Digite sua resposta:" class="answer-input">
+                    <button class="answer-button">
+                        Enviar
+                    </button>
+                </div>
+            </div>
+        </section>
     </main>
     <script type="modules" src="./index.js"></script>
   </body>
