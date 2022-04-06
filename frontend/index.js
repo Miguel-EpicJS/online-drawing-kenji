@@ -1,183 +1,190 @@
 import "./style.css";
 
-const canvas = document.getElementById("drawing-board");
-const toolbar = document.getElementById("toolbar");
-const context = canvas.getContext("2d");
-const text = document.querySelector(".show-answer");
-const sendBtn = document.querySelector(".answer-button");
-const messageBox = document.querySelector(".answer-input");
+try {
+    const canvas = document.getElementById("drawing-board");
+    const toolbar = document.getElementById("toolbar");
 
-const canvasOffsetX = canvas.offsetLeft;
-const canvasOffsetY = canvas.offsetTop;
+    const context = canvas.getContext("2d");
 
-canvas.width = window.innerWidth - canvasOffsetX;
-canvas.height = window.innerHeight - canvasOffsetY- 200;
+    const text = document.querySelector(".show-answer");
+    const sendBtn = document.querySelector(".answer-button");
+    const messageBox = document.querySelector(".answer-input");
 
-// User Mock
-const user = "Player 1";
+    const canvasOffsetX = canvas.offsetLeft;
+    const canvasOffsetY = canvas.offsetTop;
 
-const paintStyle = {
-  lineWidth: 3,
-  color: "#000000",
-};
+    canvas.width = window.innerWidth - canvasOffsetX;
+    canvas.height = window.innerHeight - canvasOffsetY - 200;
 
-const paint = {
-  active: false,
-  move: false,
-  pos: {
-    x: 0,
-    y: 0,
-  },
-  before: null,
-};
+    // User Mock
+    const user = "Player 1";
 
-/* WS */
-const ws = new WebSocket("wss://localhost:5050");
+    const paintStyle = {
+        lineWidth: 3,
+        color: "#000000",
+    };
 
-ws.onmessage = (ms) => {
-  const submitedData = JSON.parse(ms.data);
+    const paint = {
+        active: false,
+        move: false,
+        pos: {
+            x: 0,
+            y: 0,
+        },
+        before: null,
+    };
 
-  if (submitedData.path === "/chat") {
-    return show(submitedData.msg.text);
-  }
+    /* WS */
+    const ws = new WebSocket("wss://localhost:5050");
 
-  if (submitedData.drawing.action === "clear") {
-    return context.clearRect(0, 0, canvas.width, canvas.height);
-  }
+    ws.onmessage = (ms) => {
+        const submitedData = JSON.parse(ms.data);
 
-  context.strokeStyle = submitedData.drawing.color;
-  context.lineWidth = submitedData.drawing.lineWidth;
-  context.lineCap = "round";
+        if (submitedData.path === "/chat") {
+            return show(submitedData.msg.text);
+        }
 
-  paint.active = false;
-  context.lineTo(submitedData.drawing.x, submitedData.drawing.y);
-  context.stroke();
-};
+        if (submitedData.drawing.action === "clear") {
+            return context.clearRect(0, 0, canvas.width, canvas.height);
+        }
 
-/* DRAW */
-toolbar.addEventListener("click", (e) => {
-  if (e.target.id === "clear") {
-    console.log("clear");
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    ws.send(
-      JSON.stringify({
-        path: "draw",
-        action: "clear",
-        lineWidth: paintStyle.lineWidth,
-        x: 0,
-        y: 0,
-        color: paintStyle.color,
-        user,
-      })
-    );
-  }
-});
+        context.strokeStyle = submitedData.drawing.color;
+        context.lineWidth = submitedData.drawing.lineWidth;
+        context.lineCap = "round";
 
-toolbar.addEventListener("change", (e) => {
-  if (e.target.id === "stroke") {
-    paintStyle.color = e.target.value;
-    context.strokeStyle = e.target.value;
-  }
+        paint.active = false;
+        context.lineTo(submitedData.drawing.x, submitedData.drawing.y);
+        context.stroke();
+    };
 
-  if (e.target.id === "lineWidth") {
-    paintStyle.lineWidth = e.target.value;
-  }
-});
+    /* DRAW */
+    toolbar.addEventListener("click", (e) => {
+        if (e.target.id === "clear") {
+            console.log("clear");
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            ws.send(
+                JSON.stringify({
+                    path: "draw",
+                    action: "clear",
+                    lineWidth: paintStyle.lineWidth,
+                    x: 0,
+                    y: 0,
+                    color: paintStyle.color,
+                    user,
+                })
+            );
+        }
+    });
 
-const draw = (e) => {
-  if (!paint.active) {
-    return;
-  }
-  //Na tela colocar um espaço onde colocarmos isso
-  console.log(`${user} está desenhando`);
+    toolbar.addEventListener("change", (e) => {
+        if (e.target.id === "stroke") {
+            paintStyle.color = e.target.value;
+            context.strokeStyle = e.target.value;
+        }
 
-  paint.move = true;
-  paint.before = {
-    x: paint.pos.x,
-    y: paint.pos.y,
-  };
-  paint.pos.x = e.clientX - canvasOffsetX;
-  paint.pos.y = e.clientY ;
+        if (e.target.id === "lineWidth") {
+            paintStyle.lineWidth = e.target.value;
+        }
+    });
 
-  ws.send(
-    JSON.stringify({
-      path: "draw",
-      action: "drawing",
-      lineWidth: paintStyle.lineWidth,
-      x: paint.pos.x,
-      y: paint.pos.y,
-      color: paintStyle.color,
-      user,
-    })
-  );
+    const draw = (e) => {
+        if (!paint.active) {
+            return;
+        }
+        //Na tela colocar um espaço onde colocarmos isso
+        console.log(`${user} está desenhando`);
 
-  context.lineWidth = paintStyle.lineWidth;
-  context.lineCap = "round";
+        paint.move = true;
+        paint.before = {
+            x: paint.pos.x,
+            y: paint.pos.y,
+        };
+        paint.pos.x = e.clientX - canvasOffsetX;
+        paint.pos.y = e.clientY;
 
-  // context.moveTo(paint.before.x, paint.before.y);
-  context.lineTo(paint.pos.x, paint.pos.y);
-  context.stroke();
-  console.log("mousemove");
-};
+        ws.send(
+            JSON.stringify({
+                path: "draw",
+                action: "drawing",
+                lineWidth: paintStyle.lineWidth,
+                x: paint.pos.x,
+                y: paint.pos.y,
+                color: paintStyle.color,
+                user,
+            })
+        );
 
-canvas.addEventListener("mousedown", (e) => {
-  paint.active = true;
-  paint.before = {
-    x: e.clientX,
-    y: e.clientY,
-  };
+        context.lineWidth = paintStyle.lineWidth;
+        context.lineCap = "round";
 
-  console.log("mousedown");
-});
+        // context.moveTo(paint.before.x, paint.before.y);
+        context.lineTo(paint.pos.x, paint.pos.y);
+        context.stroke();
+        console.log("mousemove");
+    };
 
-canvas.addEventListener("mouseup", (e) => {
-  paint.active = false;
-  context.stroke();
-  context.beginPath();
-  console.log("mouseup");
-});
+    canvas.addEventListener("mousedown", (e) => {
+        paint.active = true;
+        paint.before = {
+            x: e.clientX,
+            y: e.clientY,
+        };
 
-canvas.addEventListener("mousemove", draw);
+        console.log("mousedown");
+    });
 
-function showMessage(message) {
-  text.innerHTML += `<p id="my">Eu: ${message}<p/>`;
-  text.scrollTop = text.scrollHeight;
-  messageBox.value = "";
+    canvas.addEventListener("mouseup", (e) => {
+        paint.active = false;
+        context.stroke();
+        context.beginPath();
+        console.log("mouseup");
+    });
 
-  console.log(message);
+    canvas.addEventListener("mousemove", draw);
+
+    function showMessage(message) {
+        text.innerHTML += `<p id="my">Eu: ${message}<p/>`;
+        text.scrollTop = text.scrollHeight;
+        messageBox.value = "";
+
+        console.log(message);
+    }
+
+    function show(message) {
+        text.innerHTML += `<p id="you">Jogador: ${message}<p/>`;
+        text.scrollTop = text.scrollHeight;
+        messageBox.value = "";
+
+        console.log(message);
+    }
+
+    sendBtn.onclick = function () {
+        if (!ws) {
+            showMessage("No websocket connection :(");
+            return;
+        }
+        let userObj = {
+            nick: "",
+            message: messageBox.value,
+        };
+
+        let user = `${userObj.message}`;
+
+        ws.send(JSON.stringify({ path: "chat", text: user, action: "chat" }));
+        showMessage(messageBox.value);
+    };
+
+
+    /* LEAVE */
+
+    const leaveBtn = document.getElementById("leave");
+
+    leaveBtn.onclick = () => {
+
+        window.location.href = "home.html";
+
+    };
+} catch (error) {
+    console.log(error);
 }
 
-function show(message) {
-  text.innerHTML += `<p id="you">Jogador: ${message}<p/>`;
-  text.scrollTop = text.scrollHeight;
-  messageBox.value = "";
-
-  console.log(message);
-}
-
-sendBtn.onclick = function () {
-  if (!ws) {
-    showMessage("No websocket connection :(");
-    return;
-  }
-  let userObj = {
-    nick: "",
-    message: messageBox.value,
-  };
-
-  let user = `${userObj.message}`;
-
-  ws.send(JSON.stringify({ path: "chat", text: user, action: "chat" }));
-  showMessage(messageBox.value);
-};
-
-
-/* LEAVE */
-
-const leaveBtn = document.getElementById("leave");
-
-leaveBtn.onclick = () => {
-
-    window.location.href = "home.html";
-
-};
