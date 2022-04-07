@@ -4,13 +4,13 @@ import blipWav from "../assets/sounds/367376__wjoojoo__blip03.wav";
 import mocaMp3 from "../assets/sounds/49070__moca__mocasg-fxs03.mp3";
 import { websocketURL } from "../../config";
 
-const nameInput = document.getElementById("nickname");
+export const nameInput = document.getElementById("nickname");
 const logInButton = document.getElementById("log-in-button");
 const inputMsg = document.getElementById("message");
 //route to verify name
 const wss = new WebSocket(websocketURL);
 
-const renderedLogin = () => {
+export const renderedLogin = () => {
   document.getElementById("log-in-box").style.display = "none";
   document.getElementById("principal-container").style.display = "flex";
 };
@@ -51,33 +51,11 @@ try {
           channel: "general",
         })
       );
-      wss.onmessage = (event) => {
+      /* wss.onmessage = (event) => {
         const data = JSON.parse(event.data);
         // const chatlist = JSON.parse(data.chatList);
-        console.log(data);
-
-        console.log(data.chatList);
-
-        if (data.chatList.includes(nameInput.value)) {
-          data.ok = false;
-          setMessage("O nome de usuário já existe, insira outro.");
-        }
-
-        if (data.ok) {
-          //Ok: player must be redirected to another page if name is unique in the game room
-          localStorage.setItem("username", nameInput.value);
-          // window.location.href = "index.html";
-          renderedLogin();
-        } else if (!data.ok) {
-          //repeated name: player must choose another name
-          console.log(data.msg.text);
-        } else {
-          //other possibility: feedback to player
-          console.log(
-            "Ocorreu um problema na aplicação. Tente novamente mais tarde"
-          );
-        }
-      };
+        
+      }; */
     }
   };
 

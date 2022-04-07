@@ -16,8 +16,7 @@ class Draw extends Connection {
       const data = this.data;
 
       if (
-        client.readyState === this.websocket.OPEN &&
-        client.id !== this.ws.id
+        client.readyState === this.websocket.OPEN
       ) {
         client.send(
           JSON.stringify({
