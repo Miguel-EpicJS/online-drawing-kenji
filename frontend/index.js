@@ -2,10 +2,6 @@ import "./style.css";
 import { Paint } from "./src/scripts/paint";
 import { CanvasControl } from "./src/scripts/canvas";
 import { wss as ws } from "./src/scripts/home";
-//--------------------------------------------------
-//  criar arquivo config para guardar as variaveis  
-//--------------------------------------------------
-
 class WS {
   constructor() {
     this.ws = new WebSocket("wss://localhost:5050");
@@ -27,12 +23,9 @@ class WS {
     this.idUser = _id;
   }
 
-  sendMessage(_message) {
-
-  }
+  sendMessage(_message) {}
 
   getMessage() {}
-  
 }
 
 const canvas = document.getElementById("drawing-board");
@@ -85,6 +78,7 @@ toolbar.addEventListener("click", (e) => {
         y: 0,
         color: paint.getColor(),
         user,
+        channel: "general",
       })
     );
   }
@@ -120,6 +114,7 @@ const draw = (e) => {
       y: paint.getPos().y,
       color: paint.getColor(),
       user,
+      channel: "general",
     })
   );
 
@@ -167,6 +162,13 @@ sendBtn.onclick = function () {
 
   let user = `${userObj.message}`;
 
-  ws.send(JSON.stringify({ path: "chat", text: user, action: "chat" }));
+  ws.send(
+    JSON.stringify({
+      path: "chat",
+      text: user,
+      action: "chat",
+      channel: "general",
+    })
+  );
   showMessage(messageBox.value);
 };

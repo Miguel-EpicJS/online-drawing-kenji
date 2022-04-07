@@ -2,12 +2,13 @@ import "../styles/home.css";
 
 import blipWav from "../assets/sounds/367376__wjoojoo__blip03.wav";
 import mocaMp3 from "../assets/sounds/49070__moca__mocasg-fxs03.mp3";
+import { websocketURL } from "../../config";
 
 const nameInput = document.getElementById("nickname");
 const logInButton = document.getElementById("log-in-button");
 const inputMsg = document.getElementById("message");
 //route to verify name
-const wss = new WebSocket(`wss://localhost:5050`);
+const wss = new WebSocket(websocketURL);
 
 const renderedLogin = () => {
   document.getElementById("log-in-box").style.display = "none";
@@ -29,35 +30,38 @@ try {
   //     sound.play();
   //   });
   // }
-   
-  
-  const logIn = () => {
 
-    function setMessage (text) {
-        inputMsg.innerHTML = text;
-        setTimeout(() => {
-            inputMsg.innerHTML = "";
-        }, 2000);
-        console.log(text);
-    };
+  const logIn = () => {
+    function setMessage(text) {
+      inputMsg.innerHTML = text;
+      setTimeout(() => {
+        inputMsg.innerHTML = "";
+      }, 2000);
+      console.log(text);
+    }
     if (/\s/g.test(nameInput.value)) {
       setMessage("O nome não pode conter espaços em branco");
     } else if (nameInput.value.length <= 0) {
       setMessage("Insira seu nome de usuário");
     } else {
-      wss.send(JSON.stringify({ name: nameInput.value, path: "login", channel: "general" }));
+      wss.send(
+        JSON.stringify({
+          name: nameInput.value,
+          path: "login",
+          channel: "general",
+        })
+      );
       wss.onmessage = (event) => {
         const data = JSON.parse(event.data);
         // const chatlist = JSON.parse(data.chatList);
         console.log(data);
-        
+
         console.log(data.chatList);
-        
+
         if (data.chatList.includes(nameInput.value)) {
           data.ok = false;
           setMessage("O nome de usuário já existe, insira outro.");
-        } 
-        
+        }
 
         if (data.ok) {
           //Ok: player must be redirected to another page if name is unique in the game room

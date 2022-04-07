@@ -20,7 +20,7 @@ h1 {
 
 .principal-container {
     padding: 30px;
-    display: flex;
+    display: none;
     justify-content: space-between;
     /* margin-top: 200px; */
     height: 90vh;
