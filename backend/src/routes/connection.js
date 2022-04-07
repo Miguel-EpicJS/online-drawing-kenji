@@ -76,46 +76,6 @@ class Connection {
     channels[this.data.channel].push(this.ws);
   }
 
-  chatBroadcast() {
-    const data = this.data;
-    channels[this.data.channel].forEach((client) => {
-      if (client.readyState === WebSocket.OPEN && client.id !== ws.id) {
-        client.send(
-          JSON.stringify({
-            msg: {
-              ...data,
-              text: data.text,
-            },
-            ok: true,
-            path: "/chat",
-          })
-        );
-      }
-    });
-  }
-
-  drawBroadcast() {
-    const data = this.data;
-    channels[this.data.channel].forEach((client) => {
-      if (client.readyState === WebSocket.OPEN && client.id !== ws.id) {
-        client.send(
-          JSON.stringify({
-            drawing: {
-              ...data,
-              lineWidth: data.lineWidth,
-              x: data.x,
-              y: data.y,
-              color: data.color,
-              text: data.text,
-            },
-            ok: true,
-            path: "/draw",
-          })
-        );
-      }
-    });
-  }
-
   getChatList() {
     this.chatList = channels[this.data.channel]
       .map(function (e) {
