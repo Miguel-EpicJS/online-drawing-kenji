@@ -1,5 +1,5 @@
-const websocketUSL = "wss://localhost:5050"
+const websocketURL = "wss://localhost:5050"
 
 export {
-    websocketUSL
+    websocketURL
 }
