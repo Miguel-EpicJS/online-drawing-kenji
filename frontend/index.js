@@ -2,32 +2,8 @@ import "./style.css";
 import { Paint } from "./src/scripts/paint";
 import { CanvasControl } from "./src/scripts/canvas";
 import { nameInput, renderedLogin, wss as ws } from "./src/scripts/home";
-/* class WS {
-    constructor() {
-        this.ws = new WebSocket("wss://localhost:5050");
-        this.username = "";
-        this.channel = "";
-        this.idUser = "";
-        this.messages = [];
-    }
 
-    setUsername(_username) {
-        this.username = _username;
-    }
 
-    setChannel(_channel) {
-        this.channel = _channel;
-    }
-
-    setUserId(_id) {
-        this.idUser = _id;
-    }
-
-    sendMessage(_message) { }
-
-    getMessage() { }
-}
- */
 const canvas = document.getElementById("drawing-board");
 const toolbar = document.getElementById("toolbar");
 const context = canvas.getContext("2d");
@@ -57,18 +33,22 @@ ws.onmessage = (ms) => {
 
     if (submitedData.path === "/draw") {
 
-        if (submitedData.drawing.action === "clear") {
-            board.clearContext();
-        }
-        console.log(board);
-        console.log(paint);
-
         board.setStrokeStyle(submitedData.drawing.color);
         board.setLineWidth(submitedData.drawing.lineWidth);
         board.setLineCap("round");
+        
+        board.simpleDraw(submitedData.drawing.x, submitedData.drawing.y);
+
+        if (submitedData.drawing.action === "clear") {
+            board.clearContext();
+        }
+        console.log(submitedData.drawing.x);
+        console.log(submitedData.drawing.y);
+
+        
     
-        paint.activeCursor();
-        board.setLineTO(submitedData.drawing.x, submitedData.drawing.y);   
+        paint.activeCursor();/* 
+        board.setLineTO(submitedData.drawing.x, submitedData.drawing.y);    */
     
     }
 
@@ -116,6 +96,8 @@ toolbar.addEventListener("click", (e) => {
                 channel: "general",
             })
         );
+
+        paint.disabledCursor();
     }
 });
 
@@ -123,10 +105,12 @@ toolbar.addEventListener("change", (e) => {
     if (e.target.id === "stroke") {
         paint.setColor(e.target.value);
         board.setStrokeStyle(target.value);
+        paint.disabledCursor();
     }
 
     if (e.target.id === "lineWidth") {
         paint.setWidth(e.target.value);
+        paint.disabledCursor();
     }
 });
 
@@ -135,10 +119,14 @@ const draw = (e) => {
         return;
     }
 
-    console.log(`${user} está desenhando`);
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
+    console.log(`${user} está desenhando`);
+ 
     paint.setBeforeCursor();
-    paint.setMoveCursor(e.clientX - board.getCanvasOffsetX(), e.clientY);
+    paint.setMoveCursor(x, y);
 
     ws.send(
         JSON.stringify({
@@ -152,11 +140,11 @@ const draw = (e) => {
             channel: "general",
         })
     );
-
+/* 
     board.setLineWidth(paint.lineWidth);
     board.setLineCap("round");
 
-    board.setLineTO(paint.pos.x, paint.pos.y);
+    board.setLineTO(paint.pos.x, paint.pos.y); */
     /* context.stroke(); */
 };
 

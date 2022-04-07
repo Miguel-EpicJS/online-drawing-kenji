@@ -7,6 +7,20 @@ export class CanvasControl {
       this.canvasOffsetY = _canvas.offsetTop;
     }
   
+    simpleDraw(x, y) {
+
+        this.context.strokeStyle = this.strokeStyle;
+        this.context.lineWidth = this.lineWidth;
+        this.context.lineCap = this.lineCap;
+
+    // draw a red line
+        this.context.beginPath();
+        this.context.moveTo(x, y);
+        this.context.lineTo(x, y+1);
+        this.context.stroke();
+
+    }
+
     setDimensions(_width, _height) {
       this.canvas.height = window.innerWidth - canvasOffsetX;
       this.canvas.width = window.innerHeight - canvasOffsetY;
@@ -16,21 +30,25 @@ export class CanvasControl {
       this.context.lineTo(_X, _Y);
       this.context.stroke();
     }
-  
+
     setLineWidth(_lineWidth) {
-      this.context.lineWidth = _lineWidth;
+      this.lineWidth = _lineWidth;
     }
   
     setLineCap(_lineCap) {
-      this.context.lineCap = _lineCap;
+      this.lineCap = _lineCap;
     }
   
     setStrokeStyle(_style) {
-      this.context.strokeStyle = _style;
+      this.strokeStyle = _style;
     }
   
     getCanvasOffsetX() {
       return this.canvasOffsetX;
+    }
+
+    getCanvas() {
+        return this.canvas;
     }
   
     clearContext() {
