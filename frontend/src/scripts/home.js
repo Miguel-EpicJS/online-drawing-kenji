@@ -15,6 +15,13 @@ const renderedLogin = () => {
   document.getElementById("principal-container").style.display = "flex";
 };
 
+const errosType = {
+  white_space: "O nome não pode conter espaços em branco",
+  little: "Insira seu nome de usuário",
+  repeated_name: "O nome já existe na sala. Escolha outro nome",
+  other_error: "Ocorreu um problema na aplicação. Tente novamente mais tarde"
+};
+
 //route to verify name
 try {
   const elementsToSound = [nameInput, logInButton];
@@ -40,9 +47,9 @@ try {
       console.log(text);
     }
     if (/\s/g.test(nameInput.value)) {
-      setMessage("O nome não pode conter espaços em branco");
+      setMessage(errosType.white_space);
     } else if (nameInput.value.length <= 0) {
-      setMessage("Insira seu nome de usuário");
+      setMessage(errosType.little);
     } else {
       wss.send(
         JSON.stringify({
@@ -60,7 +67,7 @@ try {
 
         if (data.chatList.includes(nameInput.value)) {
           data.ok = false;
-          setMessage("O nome de usuário já existe, insira outro.");
+          setMessage(errosType.repeated_name);
         }
 
         if (data.ok) {
@@ -73,9 +80,7 @@ try {
           console.log(data.msg.text);
         } else {
           //other possibility: feedback to player
-          console.log(
-            "Ocorreu um problema na aplicação. Tente novamente mais tarde"
-          );
+          console.log(errosType.other_error);
         }
       };
     }
@@ -93,10 +98,3 @@ try {
 }
 
 export { wss };
-
-const errosType = {
-  white_space: "O nome não pode conter espaços em branco",
-  little: "O nome deve conter pelo menos um caractere",
-  OK: "Ok: devemos guardar o nome e mandar o jogador para a página da sala/jogo",
-  "Nome repetido": "O nome já existe na sala. Escolha outro nome",
-};
