@@ -7,11 +7,11 @@ Run server com: `npm start`
 # Sugestões
 
 ## Crie seus certificados.
-        openssl genrsa -out backend/certs/selfkey.key
+        openssl genrsa -out backend/certs/selfsigned.key
 
-        openssl req -new -key backend/certs/selfkey.key -out backend/certs/selfcsr.pem
+        openssl req -new -key backend/certs/selfsigned.key -out backend/certs/selfcsr.pem
 
-        openssl x509 -req -days 365 -in backend/certs/selfcsr.pem -signkey backend/certs/selfkey.key -out backend/certs/selfcerts.crt
+        openssl x509 -req -days 365 -in backend/certs/selfcsr.pem -signkey backend/certs/selfsigned.key -out backend/certs/mycert.crt
 ## Lembre de instalar o prettier
 
 ## Faça PR sempre que for subir alguma alteração
