@@ -56,14 +56,24 @@ ws.onmessage = (ms) => {
 
         console.log(submitedData.chatList);
 
+        function setMessageName(text) {
+            const inputMsg = document.getElementById("message");
+            inputMsg.innerHTML = text;
+            setTimeout(() => {
+              inputMsg.innerHTML = "";
+            }, 2000);
+            console.log(text);
+          }
+
         if (submitedData.chatList.includes(nameInput.value)) {
           submitedData.ok = false;
-          setMessage("O nome de usuário já existe, insira outro.");
+          setMessageName("O nome de usuário já existe, insira outro.");
         }
 
         if (submitedData.ok) {
           //Ok: player must be redirected to another page if name is unique in the game room
           localStorage.setItem("username", nameInput.value);
+          console.log(submitedData);
           // window.location.href = "index.html";
           renderedLogin();
         } else if (!submitedData.ok) {
