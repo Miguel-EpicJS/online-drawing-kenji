@@ -1,5 +1,6 @@
 const { Connection } = require("./connection");
 const { channels } = require("../__mock__/data-mock");
+const { RedisDB } = require("../database/index");
 
 class Draw extends Connection {
   constructor(_data, _ws, _wss, _WebSocket) {
@@ -9,6 +10,8 @@ class Draw extends Connection {
     this.chatList;
     this.hour;
     this.websocket;
+
+    this.db = new RedisDB();
   }
 
   sendDraw() {
@@ -18,6 +21,15 @@ class Draw extends Connection {
       if (
         client.readyState === this.websocket.OPEN
       ) {
+
+        this.db.saveNewDrawing(data);
+
+        this.db.saveBase64(data.base64);
+
+        if (data.action == "clear") {
+            this.db.clearAllDrawings();
+        }
+
         client.send(
           JSON.stringify({
             drawing: {
