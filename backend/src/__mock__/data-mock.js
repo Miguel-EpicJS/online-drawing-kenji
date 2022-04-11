@@ -1,12 +1,6 @@
-let playersWS = [];
-let listUsers = {};
+export let playersWS = [];
+export let listUsers = {};
 
-let channels = {
+export let channels = {
   general: [],
-};
-
-module.exports = {
-  playersWS,
-  listUsers,
-  channels,
 };

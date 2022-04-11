@@ -1,5 +1,5 @@
-const crypto = require("crypto");
-const { playersWS, listUsers, channels } = require("../__mock__/data-mock");
+import crypto from "crypto";
+import { playersWS, listUsers, channels } from "../__mock__/data-mock.js";
 
 class Connection {
   constructor(_data, _ws, _wss, _WebSocket) {
@@ -89,4 +89,4 @@ class Connection {
   }
 }
 
-module.exports = { Connection };
+export default Connection;

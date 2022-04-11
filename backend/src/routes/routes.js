@@ -1,6 +1,6 @@
-const { Draw } = require("./draw");
-const { Login } = require("./login");
-const { Chat } = require("./chat");
+import Draw from "./draw.js";
+import Login from "./login.js";
+import Chat from "./chat.js";
 
 function drawBroadcast(data, ws, wss, WebSocket) {
   const chatDraw = new Draw(data, ws, wss, WebSocket);
@@ -17,4 +17,4 @@ function userLogin(_data, ws, wss, WebSocket) {
   loginUser.login();
 }
 
-module.exports = { draw: drawBroadcast, chat: chatBroadcast, login: userLogin }; // path: function
+export default { draw: drawBroadcast, chat: chatBroadcast, login: userLogin }; // path: function

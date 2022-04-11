@@ -1,10 +1,11 @@
-import "../styles/home.css";
+/* import "../styles/home.css";
 
 import blipWav from "../assets/sounds/367376__wjoojoo__blip03.wav";
 import mocaMp3 from "../assets/sounds/49070__moca__mocasg-fxs03.mp3";
-import { websocketURL } from "../../config";
+ */import { websocketURL } from "../../config/index.js";
 
 export const nameInput = document.getElementById("nickname");
+export const nameInputValue = nameInput.value;
 const logInButton = document.getElementById("log-in-button");
 const inputMsg = document.getElementById("message");
 //route to verify name

@@ -1,5 +1,6 @@
-const { Connection } = require("./connection");
-const { channels } = require("../__mock__/data-mock");
+import Connection from "./connection.js";
+import { channels } from "../__mock__/data-mock.js";
+import { nameInputValue } from "../../../frontend/src/scripts/home.js";
 
 class Chat extends Connection {
   constructor(_data, _ws, _wss, _WebSocket) {
@@ -24,6 +25,7 @@ class Chat extends Connection {
             msg: {
               ...data,
               text: data.text,
+              name: nameInputValue,
             },
             ok: true,
             path: "/chat",
@@ -38,6 +40,4 @@ class Chat extends Connection {
   }
 }
 
-module.exports = {
-  Chat,
-};
+export default Chat;

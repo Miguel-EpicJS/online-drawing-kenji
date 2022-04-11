@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "\"A game like Gartic\"",
   "main": "backend/app.js",
+  "type": "module",
   "scripts": {
     "test": "sudo node ./backend/server.js",
     "start": "node backend/app.js",

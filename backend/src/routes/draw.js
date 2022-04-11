@@ -1,6 +1,6 @@
-const { Connection } = require("./connection");
-const { channels } = require("../__mock__/data-mock");
-const { RedisDB } = require("../database/index");
+import Connection from "./connection.js";
+import { channels } from "../__mock__/data-mock.js";
+import RedisDB from "../database/index";
 
 class Draw extends Connection {
   constructor(_data, _ws, _wss, _WebSocket) {
@@ -18,6 +18,7 @@ class Draw extends Connection {
     channels[this.data.channel].forEach((client) => {
       const data = this.data;
 
+<<<<<<< HEAD
       if (
         client.readyState === this.websocket.OPEN
       ) {
@@ -30,6 +31,9 @@ class Draw extends Connection {
             this.db.clearAllDrawings();
         }
 
+=======
+      if (client.readyState === this.websocket.OPEN) {
+>>>>>>> 04a6740 (refactor: module project)
         client.send(
           JSON.stringify({
             drawing: {
@@ -53,6 +57,4 @@ class Draw extends Connection {
   }
 }
 
-module.exports = {
-  Draw,
-};
+export default Draw;

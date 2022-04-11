@@ -1,6 +1,6 @@
-const { Connection } = require("./connection");
-const { listUsers, channels } = require("../__mock__/data-mock");
-const { RedisDB } = require("../database/index");
+import Connection from "./connection.js";
+import { listUsers, channels } from "../__mock__/data-mock.js";
+import RedisDB from "../database/index";
 
 class Login extends Connection {
   constructor(_data, _ws, _wss, _WebSocket) {
@@ -54,6 +54,7 @@ class Login extends Connection {
 
     this.ws.send(
       JSON.stringify({
+        player: listUsers[this.data.id],
         msg: {
           text: "Login Ok",
           drawings: drawings,
@@ -70,4 +71,4 @@ class Login extends Connection {
   }
 }
 
-module.exports = { Login };
+export default Login;

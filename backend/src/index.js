@@ -1,5 +1,5 @@
 // -------------- WEBSOCKET ----------------
-const routes = require("./routes/routes");
+import routes from "./routes/routes.js"
 
 const paths = Object.keys(routes);
 
@@ -39,4 +39,4 @@ const wsServer = (wss, WebSocket) => {
   });
 };
 
-module.exports = wsServer;
+export default wsServer
