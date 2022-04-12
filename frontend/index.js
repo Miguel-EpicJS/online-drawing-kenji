@@ -76,6 +76,9 @@ ws.onmessage = (ms) => {
           console.log(submitedData);
           // window.location.href = "index.html";
           renderedLogin();
+          
+          board.loadBase64(submitedData.msg.base64);          
+
         } else if (!submitedData.ok) {
           //repeated name: player must choose another name
           console.log(submitedData.msg.text);
@@ -98,6 +101,7 @@ toolbar.addEventListener("click", (e) => {
             JSON.stringify({
                 path: "draw",
                 action: "clear",
+                base64: generateBase64(),
                 lineWidth: paint.getLineWidth(),
                 x: 0,
                 y: 0,
@@ -142,6 +146,7 @@ const draw = (e) => {
         JSON.stringify({
             path: "draw",
             action: "drawing",
+            base64: generateBase64(),
             lineWidth: paint.getLineWidth(),
             x: paint.getPos().x,
             y: paint.getPos().y,
@@ -205,3 +210,9 @@ sendBtn.onclick = function () {
     );
     showMessage(messageBox.value);
 };
+
+function generateBase64() {
+
+    return board.generateBase64();
+
+}
