@@ -1,6 +1,5 @@
 const { Connection } = require("./connection");
 const { listUsers, channels } = require("../__mock__/data-mock");
-const { RedisDB } = require("../database/index");
 
 class Login extends Connection {
   constructor(_data, _ws, _wss, _WebSocket) {
@@ -10,8 +9,6 @@ class Login extends Connection {
     this.chatList;
     this.hour;
     this.websocket;
-
-    this.db = new RedisDB();
   }
 
   login() {
@@ -46,18 +43,12 @@ class Login extends Connection {
     });
   }
 
-  async notifyUser() {
+  notifyUser() {
     console.log(this.chatList);
-
-    const drawings = await this.db.getAllDrawings();
-    const base64 = await this.db.getBase64();
-
     this.ws.send(
       JSON.stringify({
         msg: {
           text: "Login Ok",
-          drawings: drawings,
-          base64: base64
         },
         ok: true,
         path: "/login",
