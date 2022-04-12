@@ -37,7 +37,7 @@ ws.onmessage = (ms) => {
         board.setLineWidth(submitedData.drawing.lineWidth);
         board.setLineCap("round");
         
-        board.simpleDraw(submitedData.drawing.x, submitedData.drawing.y);
+        // board.simpleDraw(submitedData.drawing.x, submitedData.drawing.y);
 
         if (submitedData.drawing.action === "clear") {
             board.clearContext();
@@ -49,6 +49,8 @@ ws.onmessage = (ms) => {
     
         paint.activeCursor();/* 
         board.setLineTO(submitedData.drawing.x, submitedData.drawing.y);    */
+        board.simpleDraw(submitedData.drawing.x, submitedData.drawing.y);
+
     
     }
 
@@ -156,6 +158,8 @@ const draw = (e) => {
 
     board.setLineTO(paint.pos.x, paint.pos.y); */
     /* context.stroke(); */
+    board.simpleDraw(paint.pos.x, paint.pos.y);
+
 };
 
 canvas.addEventListener("mousedown", (e) => {
