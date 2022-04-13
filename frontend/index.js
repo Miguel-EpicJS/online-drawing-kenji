@@ -10,6 +10,7 @@ const context = canvas.getContext("2d");
 const text = document.querySelector(".show-answer");
 const sendBtn = document.querySelector(".answer-button");
 const messageBox = document.querySelector(".answer-input");
+const playersList = document.getElementById('players-list');
 
 // User Mock
 const user = "Player 1";
@@ -74,6 +75,8 @@ ws.onmessage = (ms) => {
           //Ok: player must be redirected to another page if name is unique in the game room
           localStorage.setItem("username", nameInput.value);
           console.log(submitedData);
+
+          submitedData.chatList.map(player => playersList.innerHTML += `<p id='player'>${player}</p>`);
           // window.location.href = "index.html";
           renderedLogin();
           
