@@ -17,13 +17,16 @@ class Login extends Connection {
   login() {
     super.validateChannel();
     super.getChatList();
-    super.duplicateName();
-    super.verifyBeforeConection();
-    super.insertNameOnList();
-    super.playersObjectWS();
-    super.insertUserOnChannel();
-    this.sendNotifyUsersInto();
-    this.notifyUser();
+
+    if (!super.duplicateName()) {
+      super.verifyBeforeConection();
+      super.insertNameOnList();
+      super.playersObjectWS();
+      super.insertUserOnChannel();
+      super.getChatList();
+      this.sendNotifyUsersInto();
+      this.notifyUser();
+    }
   }
 
   sendNotifyUsersInto() {
@@ -57,7 +60,7 @@ class Login extends Connection {
         msg: {
           text: "Login Ok",
           drawings: drawings,
-          base64: base64
+          base64: base64,
         },
         ok: true,
         path: "/login",

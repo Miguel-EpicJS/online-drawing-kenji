@@ -28,8 +28,9 @@ class Connection {
           hour: this.hour,
         })
       );
-      return;
+      return true
     }
+    return false
   }
 
   verifyBeforeConection() {
@@ -67,7 +68,7 @@ class Connection {
           path: "/login",
           hour,
         })
-      );
+      );  
     }
     return;
   }
