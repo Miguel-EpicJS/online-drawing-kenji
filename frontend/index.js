@@ -54,7 +54,7 @@ ws.onmessage = (ms) => {
 
     if (submitedData.path === "/login") {
 
-        console.log(submitedData.chatList);
+        console.log(submitedData.msg);
 
         function setMessageName(text) {
             const inputMsg = document.getElementById("message");
@@ -65,7 +65,7 @@ ws.onmessage = (ms) => {
             console.log(text);
           }
 
-        if (submitedData.chatList.includes(nameInput.value)) {
+        if (submitedData.msg.text === "invalid name") {
           submitedData.ok = false;
           setMessageName("O nome de usuário já existe, insira outro.");
         }
