@@ -1,7 +1,19 @@
 import WORDS from "../../../backend/src/database/words";
 
-const word = WORDS[Math.floor(Math.random() * WORDS.length)];
+export const word = WORDS[Math.floor(Math.random() * WORDS.length)];
 
-const compare = (guess) => {
-  return word.variants.find((variant) => variant === guess);
+export const verifyGuess = (guess, payload) => {
+  if (guess.split(' ').length > 1) {
+    return { message: 'Dê palpites de apenas uma palvra!', action: 'write'}
+  } 
+  const compare = (guess) => {
+    const newGuess = String(guess);
+    return word.variants.find((variant) => variant === newGuess.toLowerCase());
+  };
+
+  if (!compare(guess) || compare(guess) === undefined) {
+    return { message: "Jogador venceu!", action: "write" };
+  } else {
+    return { message: undefined, action: "none" };
+  }
 };
