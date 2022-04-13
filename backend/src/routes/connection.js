@@ -28,9 +28,9 @@ class Connection {
           hour: this.hour,
         })
       );
-      return true
+      return true;
     }
-    return false
+    return false;
   }
 
   verifyBeforeConection() {
@@ -68,7 +68,7 @@ class Connection {
           path: "/login",
           hour,
         })
-      );  
+      );
     }
     return;
   }
@@ -80,7 +80,10 @@ class Connection {
   getChatList() {
     this.chatList = channels[this.data.channel]
       .map(function (e) {
-        return listUsers[e.id];
+        if (listUsers[e.id]) {
+          return listUsers;
+        }
+        return;
       })
       .filter(function (e) {
         if (e) {
