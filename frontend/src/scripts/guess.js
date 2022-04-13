@@ -5,7 +5,7 @@ export const word = WORDS[Math.floor(Math.random() * WORDS.length)];
 export const verifyGuess = (guess, payload) => {
   if (guess.split(" ").length > 1) {
     return {
-      message: "Dê palpites de apenas uma palvra!",
+      message: "Dê palpites de apenas uma palavra!",
       action: "write",
       isCorrect: false,
     };
