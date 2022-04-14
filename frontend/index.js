@@ -22,40 +22,7 @@ const board = new CanvasControl(canvas);
 ws.onmessage = (ms) => {
   const submitedData = JSON.parse(ms.data);
 
-  if(submitedData.action === "get-first"){
-    document.getElementById(submitedData.msg.text.id).classList.add("playing")
-  }
-
-  if (submitedData.action === "entry") {
-    listPlayers = submitedData.chatList;
-
-    playersList.innerHTML = "";
-
-    listPlayers.map(
-      (player) =>
-        (playersList.innerHTML += `<p id="${player.id}">${player.name}</p>`)
-    );
-  }
-
-  if (submitedData.path === "/chat") {
-    show(submitedData.msg.text);
-  }
-
-  if (submitedData.path === "/draw") {
-    board.setStrokeStyle(submitedData.drawing.color);
-    board.setLineWidth(submitedData.drawing.lineWidth);
-    board.setLineCap("round");
-
-    board.simpleDraw(submitedData.drawing.x, submitedData.drawing.y);
-
-    if (submitedData.drawing.action === "clear") {
-      board.clearContext();
-    }
-
-    paint.activeCursor(); /* 
-        board.setLineTO(submitedData.drawing.x, submitedData.drawing.y);    */
-  }
-
+    // seção que vai fazer as verificações de login,bloquear nome repetido e permitir o login caso o nome esteja ok
   if (submitedData.path === "/login") {
 
     function setMessageName(text) {
@@ -79,16 +46,71 @@ ws.onmessage = (ms) => {
 
       listPlayers.map(
         (player) =>
-          (playersList.innerHTML += `<p id="${player.id}">${player.name}</p>`)
+          (playersList.innerHTML += `<p class='players-list' id="${player.id}">${player.name}</p>`)
       );
       renderedLogin();
 
       board.loadBase64(submitedData.msg.base64);
     } 
   }
+  
+  // condição que vai listar os nomes dos jogadores ativos no bloco de jogadores quando o jogador entrar
+  if (submitedData.action === "entry") {
+    listPlayers = submitedData.chatList;
+
+    playersList.innerHTML = "";
+
+    listPlayers.map(
+      (player) =>
+        (playersList.innerHTML += `<p class='players-list' id="${player.id}">${player.name}</p>`)
+    );
+  }
+
+  
+// função que vai executar o iniciar do jogo ao clicar no botão iniciar
+startBtn.onclick = ()=> {
+  const user = findUser(listPlayers);
+
+  ws.send(
+    JSON.stringify({
+      path: "control_game",
+      text: user,
+      action: "start",
+      channel: "general",
+      id: user
+    })
+  );
+}
+
+
+  // condição que vai pegar o jogador da vez e adicionar a classe playing pra adicionar a cor verde de identificação
+  if(submitedData.action === "get-first"){
+    document.getElementById(submitedData.msg.text.id).classList.replace("players-list","playing")
+  }
+
+   // condições que vão exibir o desenho no canvas dentro do websocket
+  if (submitedData.path === "/draw") {
+    board.setStrokeStyle(submitedData.drawing.color);
+    board.setLineWidth(submitedData.drawing.lineWidth);
+    board.setLineCap("round");
+
+    board.simpleDraw(submitedData.drawing.x, submitedData.drawing.y);
+
+    if (submitedData.drawing.action === "clear") {
+      board.clearContext();
+    }
+
+    paint.activeCursor(); /* 
+        board.setLineTO(submitedData.drawing.x, submitedData.drawing.y);    */
+  }
+
+  // condição que vai exibir as mensagens/respostas no chat
+  if (submitedData.path === "/chat") {
+    show(submitedData.msg.text);
+  }
 };
 
-/* DRAW */
+// seção que adiciona funcionalidade na barra de ferramentas do desenho e no canvas
 toolbar.addEventListener("click", (e) => {
   if (e.target.id === "clear") {
     board.clearContext();
@@ -168,6 +190,8 @@ canvas.addEventListener("mouseup", (e) => {
 
 canvas.addEventListener("mousemove", draw);
 
+
+// funções que nomeia os jogadores no chat na visão de quem está jogando, "eu" pra primeira pessoa, e "jogador" pra identificar os outros
 function showMessage(message) {
   text.innerHTML += `<p id="my">Eu: ${message}<p/>`;
   text.scrollTop = text.scrollHeight;
@@ -180,6 +204,8 @@ function show(message) {
   messageBox.value = "";
 }
 
+
+// função que vai controlar o websocket ao clicar no botão "enviar" e receber as mensagens enviadas no chat
 sendBtn.onclick = function () {
   if (!ws) {
     showMessage("No websocket connection :(")
@@ -205,18 +231,4 @@ sendBtn.onclick = function () {
 
 function generateBase64() {
   return board.generateBase64();
-}
-
-startBtn.onclick = ()=> {
-  const user = findUser(listPlayers);
-
-  ws.send(
-    JSON.stringify({
-      path: "control_game",
-      text: user,
-      action: "start",
-      channel: "general",
-      id: user
-    })
-  );
 }
