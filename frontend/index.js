@@ -19,7 +19,6 @@ let listPlayers = [];
 const paint = new Paint();
 const board = new CanvasControl(canvas);
 
-/* WS */
 ws.onmessage = (ms) => {
   const submitedData = JSON.parse(ms.data);
 
@@ -58,7 +57,6 @@ ws.onmessage = (ms) => {
   }
 
   if (submitedData.path === "/login") {
-    console.log(submitedData.msg);
 
     function setMessageName(text) {
       const inputMsg = document.getElementById("message");
@@ -66,7 +64,6 @@ ws.onmessage = (ms) => {
       setTimeout(() => {
         inputMsg.innerHTML = "";
       }, 2000);
-      console.log(text);
     }
 
     if (submitedData.msg.text === "invalid name") {
@@ -75,7 +72,6 @@ ws.onmessage = (ms) => {
     }
 
     if (submitedData.ok) {
-      //Ok: player must be redirected to another page if name is unique in the game room
       localStorage.setItem("username", nameInput.value);
       listPlayers = submitedData.chatList;
 
@@ -88,15 +84,7 @@ ws.onmessage = (ms) => {
       renderedLogin();
 
       board.loadBase64(submitedData.msg.base64);
-    } else if (!submitedData.ok) {
-      //repeated name: player must choose another name
-      console.log(submitedData.msg.text);
-    } else {
-      //other possibility: feedback to player
-      console.log(
-        "Ocorreu um problema na aplicação. Tente novamente mais tarde"
-      );
-    }
+    } 
   }
 };
 

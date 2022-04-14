@@ -1,5 +1,3 @@
-// ----------------- LISTEN SERVER ---------------
-
 const { server } = require("./server");
 const PORT = 5050;
 

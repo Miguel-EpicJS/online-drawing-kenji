@@ -3,66 +3,70 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat&family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-
     <title>Drawing app</title>
   </head>
   <body>
-
     <div id="log-in-box">
       <h1>Galphartic</h1>
       <div>
-          <input id="nickname" class="zoom-out-200ms" type="text" placeholder="Digite seu nome:" /><br />
-          <p id="message"></p>
-          <button id="log-in-button" class="zoom-out-200ms" type="button" value="Entrar">Entrar</button>
+        <input
+          id="nickname"
+          class="zoom-out-200ms"
+          type="text"
+          placeholder="Digite seu nome:"
+        /><br />
+        <p id="message"></p>
+        <button
+          id="log-in-button"
+          class="zoom-out-200ms"
+          type="button"
+          value="Entrar"
+        >
+          Entrar
+        </button>
       </div>
-  </div>
+    </div>
 
     <main class="principal-container" id="principal-container">
-        <section class="first-container">
-            <div class="players" id="players">
-               <span id="players-title">Jogadores:</span> 
-               <div id="players-list"></div>
-            </div>
-            <button class="button-out" id="leave">
-                Sair
-            </button>
-        </section>
-        <section class="second-container">
-            <div class="container">
-                <button class="button-start" id="start">
-                    Iniciar
-                </button>
-                <div id="toolbar">
-                    <input id="stroke" name='stroke' type="color">
-                    <input id="lineWidth" name='lineWidth' type="number" value="5">
-                    <button id="clear">Clear</button>
-                </div>
-                <div class="drawing-board">
-                    <canvas id="drawing-board"></canvas>
-                </div>
-            </div>
-            <div class="answer-container">
-                <div class="show-answer">
-                    <span id="respostas">Respostas</span>
-                    
-                </div>
-                <div class="send-answer">
-                    <input type="text" placeholder="Digite sua resposta:" class="answer-input">
-                    <button class="answer-button">
-                        Enviar
-                    </button>
-                </div>
-            </div>
-        </section>
+      <section class="first-container">
+        <div class="players" id="players">
+          <span id="players-title">Jogadores:</span>
+          <div id="players-list"></div>
+        </div>
+        <button class="button-out" id="leave">Sair</button>
+      </section>
+      <section class="second-container">
+        <div class="container">
+          <button class="button-start" id="start">Iniciar</button>
+          <div id="toolbar">
+            <input id="stroke" name="stroke" type="color" />
+            <input id="lineWidth" name="lineWidth" type="number" value="5" />
+            <button id="clear">Clear</button>
+          </div>
+          <div class="drawing-board">
+            <canvas id="drawing-board"></canvas>
+          </div>
+        </div>
+        <div class="answer-container">
+          <div class="show-answer">
+            <span id="respostas">Respostas</span>
+          </div>
+          <div class="send-answer">
+            <input
+              type="text"
+              placeholder="Digite sua resposta:"
+              class="answer-input"
+            />
+            <button class="answer-button">Enviar</button>
+          </div>
+        </div>
+      </section>
     </main>
   </body>
-  
 </html>
