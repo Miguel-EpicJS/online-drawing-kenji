@@ -28,13 +28,12 @@ ws.onmessage = (ms) => {
   /* console.log(submitedData) */
 
   if (submitedData.action === "entry") {
-    console.log("aaaaaaaaaaquiiiiiiiii");
     listPlayers = submitedData.chatList;
     // const newPlayer = listPlayers[listPlayers.length - 1];
     playersList.innerHTML = "";
 
     listPlayers.map(
-      (player) => (playersList.innerHTML += `<p id='player'>${player.name}</p>`)
+      (player) => (playersList.innerHTML += `<p id="${player.id}">${player.name}</p>`)
     );
   }
 
@@ -85,7 +84,7 @@ ws.onmessage = (ms) => {
 
       listPlayers.map(
         (player) =>
-          (playersList.innerHTML += `<p id='player'>${player.name}</p>`)
+          (playersList.innerHTML += `<p id="${player.id}">${player.name}</p>`)
       );
       // window.location.href = "index.html";
       renderedLogin();
