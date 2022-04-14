@@ -1,13 +1,9 @@
 import "../styles/home.css";
-
-import blipWav from "../assets/sounds/367376__wjoojoo__blip03.wav";
-import mocaMp3 from "../assets/sounds/49070__moca__mocasg-fxs03.mp3";
 import { websocketURL } from "../../config";
 
 export const nameInput = document.getElementById("nickname");
 const logInButton = document.getElementById("log-in-button");
 const inputMsg = document.getElementById("message");
-//route to verify name
 const wss = new WebSocket(websocketURL);
 
 export const renderedLogin = () => {
@@ -19,32 +15,16 @@ const errosType = {
   white_space: "O nome não pode conter espaços em branco",
   little: "Insira seu nome de usuário",
   repeated_name: "O nome já existe na sala. Escolha outro nome",
-  other_error: "Ocorreu um problema na aplicação. Tente novamente mais tarde"
+  other_error: "Ocorreu um problema na aplicação. Tente novamente mais tarde",
 };
 
-//route to verify name
 try {
-  const elementsToSound = [nameInput, logInButton];
-
-  // for (let i in elementsToSound) {
-  //   elementsToSound[i].addEventListener("mouseenter", () => {
-  //     const sound = new Audio(blipWav);
-  //     sound.play();
-  //   });
-
-  //   elementsToSound[i].addEventListener("mouseleave", () => {
-  //     const sound = new Audio(mocaMp3);
-  //     sound.play();
-  //   });
-  // }
-
   const logIn = () => {
     function setMessage(text) {
       inputMsg.innerHTML = text;
       setTimeout(() => {
         inputMsg.innerHTML = "";
       }, 2000);
-      console.log(text);
     }
     if (/\s/g.test(nameInput.value)) {
       setMessage(errosType.white_space);
@@ -58,11 +38,6 @@ try {
           channel: "general",
         })
       );
-      /* wss.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        // const chatlist = JSON.parse(data.chatList);
-        
-      }; */
     }
   };
 
@@ -74,7 +49,7 @@ try {
     }
   });
 } catch (error) {
-  console.log(error);
+  console.error(error);
 }
 
 export { wss };

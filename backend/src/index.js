@@ -32,10 +32,6 @@ const wsServer = (wss, WebSocket) => {
         );
       }
     });
-
-    ws.onerror = function () {
-      console.log("Some Error occurred");
-    };
   });
 };
 

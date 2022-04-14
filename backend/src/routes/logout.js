@@ -1,4 +1,4 @@
-const { playerWS, listUsers } = require("../__mock__/data-mock.js");
+const { listUsers } = require("../__mock__/data-mock.js");
 const { Disconnection } = require("./disconnection.js");
 
 class Logout extends Disconnection {
@@ -40,19 +40,17 @@ class Logout extends Disconnection {
   }
 
   notifyUser() {
-    console.log(this.chatList);
-
     this.ws.send(
       JSON.stringify({
         msg: {
-          text: "Logout OK"
+          text: "Logout OK",
         },
         ok: true,
         path: "/logout",
         hour: this.hour,
         channel: this.data.channel,
         chatList: this.chatList,
-        id: this.data.id
+        id: this.data.id,
       })
     );
   }
