@@ -12,14 +12,13 @@ app.use(express.static("dist"));
 
 app.get("/", (req, res, next) => {
   const options = {
-    root: path.join(__dirname + ".." + "dist"),
+    root: path.join(__dirname, "..", "frontend"),
   };
 
   res.sendFile("index.html", options, (err) => {
     if (err) {
       next(err);
     } else {
-      console.log("Sent:", fileName);
       next();
     }
   });

@@ -1,6 +1,7 @@
 const { Draw } = require("./draw");
 const { Login } = require("./login");
 const { Chat } = require("./chat");
+const { Logout } = require("./logout");
 
 function drawBroadcast(data, ws, wss, WebSocket) {
   const chatDraw = new Draw(data, ws, wss, WebSocket);
@@ -17,4 +18,9 @@ function userLogin(_data, ws, wss, WebSocket) {
   loginUser.login();
 }
 
-module.exports = { draw: drawBroadcast, chat: chatBroadcast, login: userLogin }; // path: function
+function userLogout(data, ws, wss, WebSocket) {
+  const logoutUser = new Logout(data, ws, wss, WebSocket);
+  logoutUser.logout();
+}
+
+module.exports = { draw: drawBroadcast, chat: chatBroadcast, login: userLogin, logout: userLogout }; // path: function
