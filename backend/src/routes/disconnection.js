@@ -23,7 +23,9 @@ class Disconnection {
 
   removeObjectWS() {
     if (playersWS.includes(this.ws)) {
-      playersWS = removeElement(playersWS);
+      playersWS = playersWS.filter((x) => {
+        return x != value;
+      });
     }
   }
 
@@ -32,12 +34,6 @@ class Disconnection {
       delete channels[this.data.channel];
     }
   }
-}
-
-function removeElement(array, value) {
-  return array.filter((x) => {
-    return x != value;
-  });
 }
 
 module.exports = { Disconnection };

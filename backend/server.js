@@ -12,7 +12,7 @@ app.use(express.static("dist"));
 
 app.get("/", (req, res, next) => {
   const options = {
-    root: path.join(__dirname, "..", "frontend"),
+    root: path.join(__dirname, "..", "dist"),
   };
 
   res.sendFile("index.html", options, (err) => {
