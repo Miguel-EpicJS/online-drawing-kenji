@@ -75,8 +75,7 @@ ws.onmessage = (ms) => {
           //Ok: player must be redirected to another page if name is unique in the game room
           localStorage.setItem("username", nameInput.value);
           console.log(submitedData);
-
-          submitedData.chatList.map(player => playersList.innerHTML += `<p id='player'>${player}</p>`);
+          submitedData.chatList.map(player => playersList.innerHTML += `<p id='player'>${player.name}</p>`);
           // window.location.href = "index.html";
           renderedLogin();
           
