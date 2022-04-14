@@ -22,8 +22,12 @@ Run server com: `npm start`
 
 ## Não faça commits direto na main
 
-## Observe se há algum arquivo vazio no seu PR, pode apagar o trabalho feito.
+## Observe se há algum arquivo vazio no seu PR, pode apagar o trabalho feito
 
 ## Marque pelo menos 1 request review 
 
-## Utilize bons nomes para o PR e assine para sabermos mapear caso dê algo errado.
+## Utilize bons nomes para o PR e assine para sabermos mapear caso dê algo errado
+
+## Não dê push com console.log ou comentários no código a não ser que seja muito esclarecedor sobre um ponto de atenção e seja conciso
+
+## Para dúvidas ou pontos de problemas sobre o código, utilize a plataforma Github para comentar e dar visibilidade (como a tab Issues, por exemplo)
