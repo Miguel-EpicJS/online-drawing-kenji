@@ -40,7 +40,6 @@ class Game extends Connection {
     super.getChatList();
     super.sendMessage("server", this.chatList[0], "control_game", "get-first");
     this.currentPlayer = this.chatList[0];
-    actualPlayer = this.chatList[0];
     return;
   }
 
