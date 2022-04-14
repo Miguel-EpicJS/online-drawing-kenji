@@ -37,13 +37,14 @@ class Login extends Connection {
       ) {
         client.send(
           JSON.stringify({
-            action:"entry",
+            action: "entry",
             name: "server",
             msg: {
               text: `${listUsers[this.data.id]} entrou no canal.`,
             },
             hour: this.hour,
             path: "/chat",
+            chatList: this.chatList,
           })
         );
       }
@@ -56,7 +57,7 @@ class Login extends Connection {
 
     this.ws.send(
       JSON.stringify({
-        action:"entry",
+        action: "entry",
         msg: {
           text: "Login Ok",
           drawings: drawings,
