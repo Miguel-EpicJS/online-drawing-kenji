@@ -11,27 +11,25 @@ const text = document.querySelector(".show-answer");
 const sendBtn = document.querySelector(".answer-button");
 const messageBox = document.querySelector(".answer-input");
 const playersList = document.getElementById("players-list");
+const startBtn = document.getElementById("start");
 
 // User Mock
-// const user = "Player 1";
 let listPlayers = [];
 
 const paint = new Paint();
 const board = new CanvasControl(canvas);
 
 /* WS */
-// const ws = new WebSocket("wss://localhost:5050");
-
-console.log(ws);
-
 ws.onmessage = (ms) => {
   const submitedData = JSON.parse(ms.data);
-  /* console.log(submitedData) */
+
+  if(submitedData.action === "get-first"){
+    document.getElementById(submitedData.msg.text.id).classList.add("playing")
+  }
 
   if (submitedData.action === "entry") {
     listPlayers = submitedData.chatList;
-    // const newPlayer = listPlayers[listPlayers.length - 1];
-    console.log(listPlayers);
+
     playersList.innerHTML = "";
 
     listPlayers.map(
@@ -219,4 +217,18 @@ sendBtn.onclick = function () {
 
 function generateBase64() {
   return board.generateBase64();
+}
+
+startBtn.onclick = ()=> {
+  const user = findUser(listPlayers);
+
+  ws.send(
+    JSON.stringify({
+      path: "control_game",
+      text: user,
+      action: "start",
+      channel: "general",
+      id: user
+    })
+  );
 }

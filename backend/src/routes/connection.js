@@ -79,6 +79,25 @@ class Connection {
     channels[this.data.channel].push(this.ws);
   }
 
+  sendMessage(_name, _message, _path, _action) {
+    channels[this.data.channel].forEach((client) => {
+      if (client.readyState === this.websocket.OPEN) {
+        client.send(
+          JSON.stringify({
+            action: _action,
+            name: _name,
+            msg: {
+              text: _message,
+            },
+            hour: this.hour,
+            path: _path,
+            chatList: this.chatList,
+          })
+        );
+      }
+    });
+  }
+
   getChatList() {
     this.chatList = channels[this.data.channel].map(function (e) {
       if (listUsers[e.id]) {
