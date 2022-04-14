@@ -66,9 +66,44 @@ ws.onmessage = (ms) => {
       }, 2000);
     }
 
-    if (submitedData.msg.text === "invalid name") {
-      submitedData.ok = false;
-      setMessageName("O nome de usuário já existe, insira outro.");
+    if (submitedData.path === "/login") {
+
+        console.log(submitedData.msg);
+
+        function setMessageName(text) {
+            const inputMsg = document.getElementById("message");
+            inputMsg.innerHTML = text;
+            setTimeout(() => {
+              inputMsg.innerHTML = "";
+            }, 2000);
+            console.log(text);
+          }
+
+        if (submitedData.msg.text === "invalid name") {
+          submitedData.ok = false;
+          setMessageName("O nome de usuário já existe, insira outro.");
+        }
+
+        if (submitedData.ok) {
+          //Ok: player must be redirected to another page if name is unique in the game room
+          localStorage.setItem("username", nameInput.value);
+          console.log(submitedData);
+
+          submitedData.chatList.map(player => playersList.innerHTML += `<p id='player'>${Object.values(player)}</p>`);
+          // window.location.href = "index.html";
+          renderedLogin();
+          
+          board.loadBase64(submitedData.msg.base64);          
+
+        } else if (!submitedData.ok) {
+          //repeated name: player must choose another name
+          console.log(submitedData.msg.text);
+        } else {
+          //other possibility: feedback to player
+          console.log(
+            "Ocorreu um problema na aplicação. Tente novamente mais tarde"
+          );
+        }
     }
 
     if (submitedData.ok) {
