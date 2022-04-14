@@ -3,6 +3,7 @@ Um aplicativo de desenho online onde você pode compartilhar seu desenho ao vivo
 
 Webpack build com: `npm run build`
 Run server com: `npm start`
+Execute `redis-server` port `6379`
 
 # Sugestões
 
