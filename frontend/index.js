@@ -2,6 +2,7 @@ import "./style.css";
 import { Paint } from "./src/scripts/paint";
 import { CanvasControl } from "./src/scripts/canvas";
 import { nameInput, renderedLogin, wss as ws } from "./src/scripts/home";
+import { findUser } from "./src/utils/find-user";
 
 const canvas = document.getElementById("drawing-board");
 const toolbar = document.getElementById("toolbar");
@@ -10,30 +11,30 @@ const text = document.querySelector(".show-answer");
 const sendBtn = document.querySelector(".answer-button");
 const messageBox = document.querySelector(".answer-input");
 const playersList = document.getElementById("players-list");
+const startBtn = document.getElementById("start");
 
 // User Mock
-const user = "Player 1";
 let listPlayers = [];
 
 const paint = new Paint();
 const board = new CanvasControl(canvas);
 
 /* WS */
-// const ws = new WebSocket("wss://localhost:5050");
-
-console.log(ws);
-
 ws.onmessage = (ms) => {
   const submitedData = JSON.parse(ms.data);
-  /* console.log(submitedData) */
+
+  if(submitedData.action === "get-first"){
+    document.getElementById(submitedData.msg.text.id).classList.add("playing")
+  }
 
   if (submitedData.action === "entry") {
     listPlayers = submitedData.chatList;
-    // const newPlayer = listPlayers[listPlayers.length - 1];
+
     playersList.innerHTML = "";
 
     listPlayers.map(
-      (player) => (playersList.innerHTML += `<p id="${player.id}">${player.name}</p>`)
+      (player) =>
+        (playersList.innerHTML += `<p id="${player.id}">${player.name}</p>`)
     );
   }
 
@@ -51,8 +52,6 @@ ws.onmessage = (ms) => {
     if (submitedData.drawing.action === "clear") {
       board.clearContext();
     }
-    console.log(submitedData.drawing.x);
-    console.log(submitedData.drawing.y);
 
     paint.activeCursor(); /* 
         board.setLineTO(submitedData.drawing.x, submitedData.drawing.y);    */
@@ -78,15 +77,14 @@ ws.onmessage = (ms) => {
     if (submitedData.ok) {
       //Ok: player must be redirected to another page if name is unique in the game room
       localStorage.setItem("username", nameInput.value);
-      console.log(submitedData);
       listPlayers = submitedData.chatList;
+
       playersList.innerHTML = "";
 
       listPlayers.map(
         (player) =>
           (playersList.innerHTML += `<p id="${player.id}">${player.name}</p>`)
       );
-      // window.location.href = "index.html";
       renderedLogin();
 
       board.loadBase64(submitedData.msg.base64);
@@ -105,9 +103,10 @@ ws.onmessage = (ms) => {
 /* DRAW */
 toolbar.addEventListener("click", (e) => {
   if (e.target.id === "clear") {
-    console.log("clear");
     board.clearContext();
 
+    const userId = findUser(listPlayers);
+    
     ws.send(
       JSON.stringify({
         path: "draw",
@@ -117,7 +116,7 @@ toolbar.addEventListener("click", (e) => {
         x: 0,
         y: 0,
         color: paint.getColor(),
-        user,
+        id: userId,
         channel: "general",
       })
     );
@@ -148,7 +147,7 @@ const draw = (e) => {
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
-  console.log(`${user} está desenhando`);
+  const userId = findUser(listPlayers);
 
   paint.setBeforeCursor();
   paint.setMoveCursor(x, y);
@@ -162,16 +161,10 @@ const draw = (e) => {
       x: paint.getPos().x,
       y: paint.getPos().y,
       color: paint.getColor(),
-      user,
       channel: "general",
+      user: userId,
     })
   );
-  /* 
-    board.setLineWidth(paint.lineWidth);
-    board.setLineCap("round");
-
-    board.setLineTO(paint.pos.x, paint.pos.y); */
-  /* context.stroke(); */
 };
 
 canvas.addEventListener("mousedown", (e) => {
@@ -201,7 +194,7 @@ function show(message) {
 
 sendBtn.onclick = function () {
   if (!ws) {
-    showMessage("No websocket connection :("); // tentar conectar novamente.
+    showMessage("No websocket connection :(")
     return;
   }
   let userObj = {
@@ -224,4 +217,18 @@ sendBtn.onclick = function () {
 
 function generateBase64() {
   return board.generateBase64();
+}
+
+startBtn.onclick = ()=> {
+  const user = findUser(listPlayers);
+
+  ws.send(
+    JSON.stringify({
+      path: "control_game",
+      text: user,
+      action: "start",
+      channel: "general",
+      id: user
+    })
+  );
 }
