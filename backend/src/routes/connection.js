@@ -17,9 +17,10 @@ class Connection {
   }
 
   duplicateName() {
-    if (this.chatList.find((names) => names === this.data.name)) {
+    if (this.chatList.find((obj) => obj.name === this.data.name)) {
       this.ws.send(
         JSON.stringify({
+          action: "entry",
           msg: {
             text: "invalid name",
           },
@@ -61,6 +62,7 @@ class Connection {
     if (!channels[this.data.channel]) {
       this.ws.send(
         JSON.stringify({
+          action: "entry",
           msg: {
             text: "invalid channel",
           },
@@ -78,18 +80,15 @@ class Connection {
   }
 
   getChatList() {
-    this.chatList = channels[this.data.channel]
-      .map(function (e) {
-        if (listUsers[e.id]) {
-          return listUsers;
-        }
-        return;
-      })
-      .filter(function (e) {
-        if (e) {
-          return e;
-        }
-      });
+    this.chatList = channels[this.data.channel].map(function (e) {
+      if (listUsers[e.id]) {
+        return {
+          name: listUsers[e.id],
+          id: e.id,
+        };
+      }
+      return;
+    });
   }
 }
 

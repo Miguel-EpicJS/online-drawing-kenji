@@ -32,6 +32,7 @@ class Draw extends Connection {
 
         client.send(
           JSON.stringify({
+            action:"draw",
             drawing: {
               ...data,
               lineWidth: data.lineWidth,

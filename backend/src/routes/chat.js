@@ -21,6 +21,7 @@ class Chat extends Connection {
       ) {
         client.send(
           JSON.stringify({
+            action:"chat",
             msg: {
               ...data,
               text: data.text,
