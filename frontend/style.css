@@ -21,7 +21,7 @@ h1 {
 .principal-container {
     padding: 30px;
     display: none;
-    justify-content: space-between;
+    justify-content: space-evenly;
     /* margin-top: 200px; */
     height: 90vh;
     display: none;
@@ -38,6 +38,10 @@ h1 {
     margin-top: 10px;
     display: flex;
     justify-content: space-between;
+}
+
+.answer-container{
+    margin-left: 140px;
 }
 
 .answer-input {
@@ -117,6 +121,7 @@ h1 {
     width: 142px;
     height: 60px;
     margin-bottom: 100px;
+    margin-top: 30px;
     background: #C30000;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset -5px -10px 20px rgba(53, 53, 53, 0.2);
     border-radius: 50px;
@@ -126,6 +131,11 @@ h1 {
     font-size: 14px;
     line-height: 17px;
     color: #F7F7F7;
+}
+
+#respostas{
+    background: #C4C4C4;
+    position: fixed;
 }
 
 #drawing-board{
@@ -200,9 +210,24 @@ canvas {
 
 .show-answer{
     width: 629px;
-    height: 10%;
+    height: 100px;
     background: #C4C4C4;
     border-radius: 10px;
     padding: 20px;
     overflow: auto;
+}
+
+#start{
+    margin-top: 30px;
+    margin-right: 20px;
+    background-color: #F4F2F5;
+    border-radius: 50px;
+    width: 150px;
+    height: 30px;
+    font-family: 'Press Start 2P';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    color: #212339;
 }
