@@ -14,7 +14,7 @@ export class CanvasControl {
 
     this.context.beginPath();
     this.context.moveTo(x, y);
-    this.context.lineTo(x, y + 1);
+    this.context.lineTo(x, y + 0.01);
     this.context.stroke();
   }
 
