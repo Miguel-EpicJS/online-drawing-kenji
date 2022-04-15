@@ -6,7 +6,7 @@ export class Paint {
       this.move = false;
       this.pos = {
         x: 0,
-        y: 0,
+        y: -100,
       };
       this.before = null;
     }
