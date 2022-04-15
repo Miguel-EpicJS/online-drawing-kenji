@@ -52,8 +52,8 @@ ws.onmessage = (ms) => {
       board.clearContext();
     }
 
-    paint.activeCursor(); /* 
-        board.setLineTO(submitedData.drawing.x, submitedData.drawing.y);    */
+    paint.activeCursor(); 
+    // board.setLineTO(submitedData.drawing.x, submitedData.drawing.y);
   }
 
   if (submitedData.path === "/login") {
@@ -88,7 +88,6 @@ ws.onmessage = (ms) => {
   }
 };
 
-/* DRAW */
 toolbar.addEventListener("click", (e) => {
   if (e.target.id === "clear") {
     board.clearContext();
