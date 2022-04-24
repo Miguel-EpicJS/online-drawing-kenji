@@ -155,8 +155,10 @@ const draw = (e) => {
 };
 
 canvas.addEventListener("mousedown", (e) => {
-  paint.activeCursor();
-  paint.setBeforeCursor();
+  mouseX = e.pageX - this.offsetLeft;
+  mouseY = e.pageY - this.offsetTop;
+  paint = true;
+  addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
 });
 
 canvas.addEventListener("mouseup", (e) => {
