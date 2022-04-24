@@ -1,4 +1,3 @@
-// -------------- WEBSOCKET ----------------
 const routes = require("./routes/routes");
 
 const paths = Object.keys(routes);

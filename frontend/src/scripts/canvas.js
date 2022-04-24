@@ -12,7 +12,6 @@ export class CanvasControl {
     this.context.lineWidth = this.lineWidth;
     this.context.lineCap = this.lineCap;
 
-    // draw a red line
     this.context.beginPath();
     this.context.moveTo(x, y);
     this.context.lineTo(x, y + 1);

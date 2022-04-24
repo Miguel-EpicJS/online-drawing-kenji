@@ -1,83 +1,81 @@
-body {  
-    font-family: 'Press Start 2P', cursive;
-    background-color: #0E0F2A;
+body {
+  font-family: "Press Start 2P", cursive;
+  background-color: #0e0f2a;
 }
-
-
 input:hover {
-    cursor: pointer;
-    scale: 1.05;
-    transition: 200ms;
+  cursor: pointer;
+  scale: 1.05;
+  transition: 200ms;
 }
 .zoom-out-200ms {
-    transition: 200ms;
+  transition: 200ms;
 }
 .center {
-    text-align: center;
+  text-align: center;
 }
 .ps2p {
-    font-family: 'Press Start 2P', cursive;
+  font-family: "Press Start 2P", cursive;
 }
 #log-in-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #212339;
-    width: 537px;
-    height: 353px;
-    margin: auto;
-    border-radius: 10px;
-    margin-top: 6%;
-    padding: 65px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #212339;
+  width: 537px;
+  height: 353px;
+  margin: auto;
+  border-radius: 10px;
+  margin-top: 6%;
+  padding: 65px 20px;
 }
 #log-in-box h1 {
-   color: #fff;
-   font-size: 40px;
+  color: #fff;
+  font-size: 40px;
 }
 #log-in-box div {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 #name {
-    background-color: #404156;
-    border-radius: 10px;
-    width: 428px;
-    height: 50px;
-    font-size: 20px;
-    color: #fff;
+  background-color: #404156;
+  border-radius: 10px;
+  width: 428px;
+  height: 50px;
+  font-size: 20px;
+  color: #fff;
 }
 #log-in-button {
-    margin-top: 30px;
-    background-color: #F4F2F5;
-    border-radius: 50px;
-    width: 250px;
-    height: 60px;
-    font-family: 'Press Start 2P';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 20px;
-    color: #212339;
+  margin-top: 30px;
+  background-color: #f4f2f5;
+  border-radius: 50px;
+  width: 250px;
+  height: 60px;
+  font-family: "Press Start 2P";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 20px;
+  color: #212339;
 }
 #message {
-    color: #f00;
-    font-size: 15px;
+  color: #f00;
+  font-size: 15px;
 }
 #nickname {
-    width: 428px;
-    height: 50px;
-    background: #404156;
-    border-radius: 10px;
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 24px;
-    color: #BABABA;
-    outline: none;
-    padding-left: 20px;
-    text-align: center;
+  width: 428px;
+  height: 50px;
+  background: #404156;
+  border-radius: 10px;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  color: #bababa;
+  outline: none;
+  padding-left: 20px;
+  text-align: center;
 }

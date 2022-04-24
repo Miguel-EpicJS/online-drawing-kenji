@@ -3,7 +3,7 @@ class Time {
     this.currentTime = 0;
     this.time = 60000;
     this.timerInterval = 1000;
-    this.intervalTimeout
+    this.intervalTimeout;
     this.callbackTimeout = function () {};
     this.callbackTimeInterval = function () {};
   }

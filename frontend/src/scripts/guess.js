@@ -2,7 +2,7 @@ import WORDS from "../../../backend/src/database/words";
 
 export const word = WORDS[Math.floor(Math.random() * WORDS.length)];
 
-export const verifyGuess = (guess, payload) => {
+export const verifyGuess = (guess) => {
   if (guess.split(" ").length > 1) {
     return {
       message: "Dê palpites de apenas uma palavra!",

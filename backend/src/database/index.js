@@ -29,8 +29,6 @@ class RedisDB {
     return await this.redis.del(_key);
   }
 
-  /* Specific Functions */
-
   saveNewDrawing(drawing) {
     if (drawing.lineWidth && drawing.x && drawing.y && drawing.color) {
       this.redis
