@@ -92,5 +92,4 @@ const WORDS = [
   },
 ];
 
-
-export default WORDS
+export default WORDS;

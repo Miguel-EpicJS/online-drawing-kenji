@@ -13,7 +13,6 @@ const messageBox = document.querySelector(".answer-input");
 const playersList = document.getElementById("players-list");
 const startBtn = document.getElementById("start");
 
-// User Mock
 let listPlayers = [];
 
 const paint = new Paint();
@@ -22,8 +21,8 @@ const board = new CanvasControl(canvas);
 ws.onmessage = (ms) => {
   const submitedData = JSON.parse(ms.data);
 
-  if(submitedData.action === "get-first"){
-    document.getElementById(submitedData.msg.text.id).classList.add("playing")
+  if (submitedData.action === "get-first") {
+    document.getElementById(submitedData.msg.text.id).classList.add("playing");
   }
 
   if (submitedData.action === "entry") {
@@ -52,12 +51,10 @@ ws.onmessage = (ms) => {
       board.clearContext();
     }
 
-    paint.activeCursor(); /* 
-        board.setLineTO(submitedData.drawing.x, submitedData.drawing.y);    */
+    paint.activeCursor();
   }
 
   if (submitedData.path === "/login") {
-
     function setMessageName(text) {
       const inputMsg = document.getElementById("message");
       inputMsg.innerHTML = text;
@@ -84,17 +81,16 @@ ws.onmessage = (ms) => {
       renderedLogin();
 
       board.loadBase64(submitedData.msg.base64);
-    } 
+    }
   }
 };
 
-/* DRAW */
 toolbar.addEventListener("click", (e) => {
   if (e.target.id === "clear") {
     board.clearContext();
 
     const userId = findUser(listPlayers);
-    
+
     ws.send(
       JSON.stringify({
         path: "draw",
@@ -182,7 +178,7 @@ function show(message) {
 
 sendBtn.onclick = function () {
   if (!ws) {
-    showMessage("No websocket connection :(")
+    showMessage("No websocket connection :(");
     return;
   }
   let userObj = {
@@ -207,7 +203,7 @@ function generateBase64() {
   return board.generateBase64();
 }
 
-startBtn.onclick = ()=> {
+startBtn.onclick = () => {
   const user = findUser(listPlayers);
 
   ws.send(
@@ -216,7 +212,7 @@ startBtn.onclick = ()=> {
       text: user,
       action: "start",
       channel: "general",
-      id: user
+      id: user,
     })
   );
-}
+};

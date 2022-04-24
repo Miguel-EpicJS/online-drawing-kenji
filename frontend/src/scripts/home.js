@@ -42,12 +42,6 @@ try {
   };
 
   logInButton.addEventListener("click", logIn);
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      logIn();
-    }
-  });
 } catch (error) {
   console.error(error);
 }
